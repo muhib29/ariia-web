@@ -1,13 +1,19 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
-import { Header } from '@/components/homepage';
+import { HeroSection } from '@/components/homepage/hero-section';
 import { HomeBelowFold } from '@/components/homepage/HomeBelowFold';
-import { fetchAPI } from '@/utils/api-helper';
+import { fetchAPI, hasStrapiConfig } from '@/utils/api-helper';
 import { homeQuery } from '@/graphql/querys';
 
-const HeroSection = dynamic(
-  () => import('@/components/homepage/hero-section').then((m) => ({ default: m.HeroSection })),
-  { loading: () => <div className="min-h-[760px] bg-white" aria-hidden /> },
+export const revalidate = 300;
+
+const Header = dynamic(
+  () => import('@/components/homepage').then((m) => ({ default: m.Header })),
+  {
+    loading: () => (
+      <header className="fixed top-0 left-0 z-50 w-full h-[72px] bg-white/90 backdrop-blur-sm" aria-hidden />
+    ),
+  },
 );
 
 export default async function Homepage() {

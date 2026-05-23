@@ -26,8 +26,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={inter.variable}>
       <head>
         {strapiUrl ? <link rel="preconnect" href={strapiUrl} crossOrigin="anonymous" /> : null}
-        <link rel="preconnect" href="https://prod.spline.design" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://prod.spline.design" />
       </head>
       <body className="font-sans antialiased">
         <Providers>{children}</Providers>
