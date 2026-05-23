@@ -6,21 +6,14 @@ import { useEffect, useRef, useState } from 'react';
 
 type DeferredImageProps = ImageProps & {
   rootMargin?: string;
-  /** When true (default), drop image from DOM once far off-screen on low-RAM devices. */
-  unloadWhenHidden?: boolean;
 };
 
-function isFarOffScreen(rect: DOMRectReadOnly, vh: number): boolean {
-  return rect.bottom < -vh * 0.75 || rect.top > vh * 1.25;
-}
-
 /**
- * Loads images near the viewport. On low-RAM phones, unloads decoded bitmaps when
- * scrolled away to reduce memory pressure (iOS WebKit eviction white screens).
+ * Loads images when near the viewport. On mobile, keeps them mounted once loaded
+ * (no unload — unloading caused visible gaps / memory churn on iOS).
  */
 export function DeferredImage({
   rootMargin = '400px 0px',
-  unloadWhenHidden = true,
   alt,
   className,
   fill,
@@ -31,38 +24,19 @@ export function DeferredImage({
   const conserve = useConserveMemory();
   const ref = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
-  const margin = conserve ? '180px 0px' : rootMargin;
+  const margin = conserve ? '200px 0px' : rootMargin;
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
 
-    if (!conserve) {
-      const once = new IntersectionObserver(
-        ([entry]) => {
-          if (entry?.isIntersecting) {
-            setLoaded(true);
-            once.disconnect();
-          }
-        },
-        { rootMargin: margin, threshold: 0.01 },
-      );
-      once.observe(node);
-      return () => once.disconnect();
-    }
+    if (loaded) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry) return;
-        const vh = window.innerHeight || document.documentElement.clientHeight;
-
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setLoaded(true);
-          return;
-        }
-
-        if (unloadWhenHidden && isFarOffScreen(entry.boundingClientRect, vh)) {
-          setLoaded(false);
+          observer.disconnect();
         }
       },
       { rootMargin: margin, threshold: 0.01 },
@@ -70,7 +44,7 @@ export function DeferredImage({
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, [conserve, margin, unloadWhenHidden]);
+  }, [loaded, margin]);
 
   const mobileSizes = conserve ? '(max-width: 767px) 90vw, 50vw' : sizes;
 

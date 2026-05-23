@@ -1,7 +1,7 @@
 'use client';
 
 import { useConserveMemory } from '@/hooks/useConserveMemory';
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type ViewportSectionProps = {
   children: React.ReactNode;
@@ -12,96 +12,72 @@ type ViewportSectionProps = {
 };
 
 function isNearViewport(rect: DOMRectReadOnly, vh: number): boolean {
-  return rect.top < vh * 1.5 && rect.bottom > -vh * 0.6;
-}
-
-function isFarOffScreen(rect: DOMRectReadOnly, vh: number): boolean {
-  return rect.bottom < -vh * 1.2 || rect.top > vh * 2;
+  return rect.top < vh * 1.8 && rect.bottom > -vh * 0.8;
 }
 
 /**
- * Low-RAM phones: mount section DOM only when near the viewport, unmount when far
- * to free memory. Other devices render the full section immediately.
+ * Mobile: lazy-mount section when scrolled near (saves initial RAM).
+ * Once mounted, content stays in the DOM — never unmounted (avoids white-screen gaps).
  */
 export function ViewportSection({
   children,
   estimatedHeight,
   id,
   className = '',
-  rootMargin = '70% 0px',
+  rootMargin = '90% 0px',
 }: ViewportSectionProps) {
   const conserve = useConserveMemory();
   const rootRef = useRef<HTMLDivElement>(null);
   const heightCache = useRef(estimatedHeight);
-  const [active, setActive] = useState(true);
-
-  const rememberHeight = useCallback(() => {
-    const node = rootRef.current;
-    if (!node) return;
-    const h = node.offsetHeight;
-    if (h > 80) heightCache.current = h;
-  }, []);
-
-  useLayoutEffect(() => {
-    if (!conserve) return;
-    const node = rootRef.current;
-    if (!node) return;
-    const vh = window.innerHeight || document.documentElement.clientHeight;
-    const rect = node.getBoundingClientRect();
-    if (!isNearViewport(rect, vh)) setActive(false);
-  }, [conserve]);
+  const [mounted, setMounted] = useState(!conserve);
 
   useEffect(() => {
     if (!conserve) {
-      setActive(true);
+      setMounted(true);
       return;
     }
 
     const node = rootRef.current;
     if (!node) return;
 
-    const updateActive = (next: boolean) => {
-      setActive((prev) => {
-        if (!next && prev) rememberHeight();
-        return next;
-      });
+    const tryMount = () => {
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const rect = node.getBoundingClientRect();
+      if (isNearViewport(rect, vh)) {
+        setMounted(true);
+        return true;
+      }
+      return false;
     };
+
+    if (tryMount()) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry) return;
-        const vh = window.innerHeight || document.documentElement.clientHeight;
-
-        if (entry.isIntersecting) {
-          updateActive(true);
-          return;
-        }
-
-        if (isFarOffScreen(entry.boundingClientRect, vh)) {
-          updateActive(false);
+        if (entry?.isIntersecting) {
+          setMounted(true);
+          observer.disconnect();
         }
       },
       { rootMargin, threshold: 0 },
     );
 
     observer.observe(node);
-
-    const rect = node.getBoundingClientRect();
-    const vh = window.innerHeight || document.documentElement.clientHeight;
-    updateActive(isNearViewport(rect, vh));
-
     return () => observer.disconnect();
-  }, [conserve, rootMargin, rememberHeight]);
+  }, [conserve, rootMargin]);
 
   useEffect(() => {
-    if (!active || !conserve) return;
+    if (!mounted || !conserve) return;
     const content = rootRef.current?.querySelector('[data-viewport-section-content]');
     if (!content || !(content instanceof HTMLElement)) return;
 
-    const ro = new ResizeObserver(() => rememberHeight());
+    const ro = new ResizeObserver(() => {
+      const h = rootRef.current?.offsetHeight;
+      if (h && h > 80) heightCache.current = h;
+    });
     ro.observe(content);
     return () => ro.disconnect();
-  }, [active, conserve, rememberHeight]);
+  }, [mounted, conserve]);
 
   if (!conserve) {
     return (
@@ -111,7 +87,7 @@ export function ViewportSection({
     );
   }
 
-  const minH = active ? undefined : heightCache.current;
+  const minH = mounted ? undefined : heightCache.current;
 
   return (
     <div
@@ -120,10 +96,14 @@ export function ViewportSection({
       className={className}
       style={minH ? { minHeight: minH } : undefined}
     >
-      {active ? (
+      {mounted ? (
         <div data-viewport-section-content>{children}</div>
       ) : (
-        <div className="viewport-section-slot bg-white" style={{ minHeight: minH }} aria-hidden />
+        <div
+          className="viewport-section-slot bg-white"
+          style={{ minHeight: minH }}
+          aria-hidden
+        />
       )}
     </div>
   );

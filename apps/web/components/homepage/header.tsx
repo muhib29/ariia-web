@@ -362,14 +362,15 @@ function HeaderContent({
           </Link>
         </Button>
         <div className="block md:hidden relative z-[60]">
-          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen} modal={false}>
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="rounded-full size-8 sm:size-10"
+                className="rounded-full size-8 sm:size-10 touch-manipulation"
                 aria-label="Open menu"
+                aria-expanded={mobileMenuOpen}
               >
                 <svg
                   className="h-6 w-6 sm:h-10 sm:w-10 text-gray-900"
@@ -390,35 +391,38 @@ function HeaderContent({
             <SheetContent
               side="top"
               hideOverlay
-              className="p-0 bg-transparent rounded-none border-0 shadow-none data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top [&>button:first-of-type]:hidden"
+              showCloseButton={false}
+              className="p-0 bg-transparent rounded-none border-0 shadow-none z-[200] pointer-events-auto data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top"
+              onOpenAutoFocus={(e) => e.preventDefault()}
             >
               <DialogTitle>
                 <span className="sr-only">Mobile Navigation Menu</span>
               </DialogTitle>
 
-              <div className="mx-2 mt-2 rounded-[18px] border border-white/40 bg-white/10 backdrop-blur-md shadow-[0_14px_36px_rgba(15,23,42,0.12)] overflow-y-auto relative flex flex-col max-h-[calc(100dvh-1.5rem)]">
-                <div className="sticky top-0 z-50 flex items-center justify-between px-4 pt-3 pb-2 bg-transparent shrink-0">
+              <div className="mx-2 mt-2 rounded-[18px] border border-white/40 bg-white/10 backdrop-blur-md shadow-[0_14px_36px_rgba(15,23,42,0.12)] overflow-y-auto relative flex flex-col max-h-[calc(100dvh-1.5rem)] touch-manipulation isolate z-[1]">
+                <div className="sticky top-0 z-[2] flex items-center justify-between px-4 pt-3 pb-2 bg-transparent shrink-0">
                   {/* Top logo row */}
-                  <div className="bg-white/45 rounded-full px-3 py-1 border border-white/45 flex items-center gap-2">
+                  <div className="bg-white/45 rounded-full px-3 py-1 border border-white/45 flex items-center gap-2 pointer-events-none">
                     <AriiaSvgMark className="w-16 h-7" />
                   </div>
                   <SheetClose asChild>
                     <button
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center justify-center size-9 opacity-90 rounded-full bg-white/45 shadow-md border border-white/45"
+                      type="button"
+                      aria-label="Close menu"
+                      className="relative z-[3] flex items-center justify-center size-10 opacity-90 rounded-full bg-white/45 shadow-md border border-white/45 touch-manipulation cursor-pointer"
                     >
-                      <X className="h-4 w-4 text-gray-700" />
+                      <X className="h-4 w-4 text-gray-700 pointer-events-none" />
                     </button>
                   </SheetClose>
                 </div>
 
-                <nav className="pb-6">
+                <nav className="pb-6 relative z-[1]">
                   {MOBILE_MENU_SINGLE_LINKS.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
                       prefetch={false}
-                      className="flex items-center gap-2 px-4 border-b border-[#93d8fa4c] py-2 text-gray-700 font-bold hover:bg-gray-100 transition-colors"
+                      className="flex items-center gap-2 px-4 border-b border-[#93d8fa4c] py-3 min-h-[44px] text-gray-700 font-bold hover:bg-gray-100 transition-colors touch-manipulation relative z-[1]"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       <span>{item.label}</span>
@@ -433,8 +437,9 @@ function HeaderContent({
                       onOpenChange={setIsCompanyOpen}
                     >
                       <CollapsibleTrigger
+                        type="button"
                         className={cn(
-                          'flex items-center px-4 gap-2 py-2 text-gray-700 font-bold hover:bg-gray-100 transition-colors w-full',
+                          'flex items-center px-4 gap-2 py-3 min-h-[44px] text-gray-700 font-bold hover:bg-gray-100 transition-colors w-full touch-manipulation relative z-[1]',
                           isCompanyOpen ? '' : 'border-b border-[#93d8fa4c]',
                         )}
                       >
@@ -457,7 +462,7 @@ function HeaderContent({
                               href={link.href}
                               prefetch={false}
                               className={cn(
-                                'flex ml-2 items-start gap-2 p-[5px] text-gray-800 font-[400] transition-colors',
+                                'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]',
                               )}
                               //@ts-ignore
                               onClick={() => setMobileMenuOpen(false)}
@@ -480,8 +485,9 @@ function HeaderContent({
                       onOpenChange={setIsResourcesOpen}
                     >
                       <CollapsibleTrigger
+                        type="button"
                         className={cn(
-                          'flex items-center px-4 gap-2 py-2 text-gray-700 font-bold hover:bg-gray-100 transition-colors w-full',
+                          'flex items-center px-4 gap-2 py-3 min-h-[44px] text-gray-700 font-bold hover:bg-gray-100 transition-colors w-full touch-manipulation relative z-[1]',
                           isResourcesOpen ? '' : 'border-b border-[#93d8fa4c]',
                         )}
                       >
@@ -504,7 +510,7 @@ function HeaderContent({
                               href={link.href}
                               prefetch={false}
                               className={cn(
-                                'flex ml-2 items-start gap-2 p-[5px] text-gray-800 font-[400] transition-colors',
+                                'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]',
                               )} // @ts-ignore
                               onClick={() => setMobileMenuOpen(false)}
                             >
@@ -520,12 +526,12 @@ function HeaderContent({
                 </nav>
 
                 {/* Bottom CTA bar (Log In + 1-Month Free Trial) */}
-                <div className="px-4 pb-6 pt-2 shrink-0">
+                <div className="px-4 pb-6 pt-2 shrink-0 relative z-[1]">
                   <div className="w-full bg-white/45 backdrop-blur-xl rounded-full p-[5px] shadow-[0_14px_36px_rgba(15,23,42,0.14)] flex items-center justify-between gap-2 border border-white/45">
                     <Link
                       href="/login"
                       prefetch={false}
-                      className="flex-1 text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors px-3 py-2 rounded-full text-center bg-transparent"
+                      className="flex-1 text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors px-3 py-3 min-h-[44px] rounded-full text-center bg-transparent touch-manipulation flex items-center justify-center"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Log In

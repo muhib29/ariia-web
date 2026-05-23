@@ -54,8 +54,8 @@ export function shouldLoadSpline(): boolean {
 }
 
 /**
- * Aggressive memory mode for older iPhones (≈3GB RAM) and similar devices.
- * Enables viewport-mounted sections and unloading off-screen images.
+ * Memory conservation: all touch devices under 768px (no RAM detection).
+ * Lazy-mounts below-fold sections; never unmounts them once shown (see ViewportSection).
  */
 export function shouldConserveMemory(): boolean {
   if (typeof window === 'undefined') return false;
@@ -63,17 +63,7 @@ export function shouldConserveMemory(): boolean {
   if (process.env.NEXT_PUBLIC_CONSERVE_MEMORY === 'true') return true;
   if (process.env.NEXT_PUBLIC_CONSERVE_MEMORY === 'false') return false;
 
-  const nav = navigator as Navigator & { deviceMemory?: number };
-  if (typeof nav.deviceMemory === 'number' && nav.deviceMemory > 0 && nav.deviceMemory <= 4) {
-    return true;
-  }
-
-  // deviceMemory is often missing on iOS Safari — use touch + phone viewport
-  if (isTouchDevice() && window.matchMedia('(max-width: 428px)').matches) {
-    return true;
-  }
-
-  return false;
+  return isTouchDevice() && window.matchMedia('(max-width: 767px)').matches;
 }
 
 /** Scroll-reveal fades break on iOS when content uses opacity:0 — desktop only. */

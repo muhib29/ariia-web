@@ -1,15 +1,27 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { shouldConserveMemory } from '@/lib/device-capabilities';
 
-/** True on low-RAM phones (e.g. iPhone X) after mount — gates lazy sections & image unload. */
+function subscribe(onChange: () => void) {
+  const mq = window.matchMedia('(max-width: 767px)');
+  mq.addEventListener('change', onChange);
+  window.addEventListener('orientationchange', onChange);
+  return () => {
+    mq.removeEventListener('change', onChange);
+    window.removeEventListener('orientationchange', onChange);
+  };
+}
+
+function getSnapshot() {
+  return shouldConserveMemory();
+}
+
+function getServerSnapshot() {
+  return false;
+}
+
+/** True on mobile touch viewports — used for lazy section mount & lighter images. */
 export function useConserveMemory(): boolean {
-  const [conserve, setConserve] = useState(false);
-
-  useEffect(() => {
-    setConserve(shouldConserveMemory());
-  }, []);
-
-  return conserve;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
