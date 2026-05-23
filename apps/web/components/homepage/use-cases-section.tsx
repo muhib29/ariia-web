@@ -158,6 +158,7 @@ export function UseCasesSection({ header, audioWithContent }: UseCasesSectionPro
                                 if (el) audioRefs.current[index] = el;
                               }}
                               src={card.audio || '/audio/11labs.mp3'}
+                              preload="none"
                               onEnded={() => setCurrentPlayingIndex(null)}
                             />
                           </div>
@@ -166,14 +167,12 @@ export function UseCasesSection({ header, audioWithContent }: UseCasesSectionPro
                     </div>
                     {/* Card Content */}
                     <div className="flex flex-col flex-1 min-h-0">
-                      <FadeInWhenInView delay={index * 120 + 120} duration={0.5} yOffset={10}>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2 flex-shrink-0">
-                          {card.title}
-                        </h3>
-                        <div className="text-gray-600 text-sm leading-relaxed flex-1 min-h-0">
-                          <ReactMarkdown>{card.description}</ReactMarkdown>
-                        </div>
-                      </FadeInWhenInView>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2 flex-shrink-0">
+                        {card.title}
+                      </h3>
+                      <div className="text-gray-600 text-sm leading-relaxed flex-1 min-h-0">
+                        <ReactMarkdown>{card.description}</ReactMarkdown>
+                      </div>
                     </div>
                   </div>
                 </FadeInWhenInView>

@@ -36,6 +36,7 @@ interface HomeBelowFoldProps {
   faqProps: FAQSectionProps | null;
 }
 
+/** Below-fold sections — code-split via dynamic(); always mounted so scroll/IO stay reliable on iOS. */
 export function HomeBelowFold({ useCasesProps, securityProps, faqProps }: HomeBelowFoldProps) {
   return (
     <>

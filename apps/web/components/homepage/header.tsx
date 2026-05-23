@@ -361,10 +361,16 @@ function HeaderContent({
             <span className="sm:hidden">1-Month Free Trial</span>
           </Link>
         </Button>
-        <div className="block md:hidden">
-          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+        <div className="block md:hidden relative z-[60]">
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen} modal={false}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full size-8 sm:size-10">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="rounded-full size-8 sm:size-10"
+                aria-label="Open menu"
+              >
                 <svg
                   className="h-6 w-6 sm:h-10 sm:w-10 text-gray-900"
                   fill="none"

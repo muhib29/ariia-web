@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '@workspace/ui/lib/utils';
@@ -93,44 +92,42 @@ export function FAQSection({ header, questions }: FAQSectionProps) {
                         </span>
                       </button>
 
-                      <motion.div
-                        initial={false}
-                        animate={isOpen ? 'open' : 'collapsed'}
-                        variants={{
-                          open: { height: 'auto', opacity: 1 },
-                          collapsed: { height: 0, opacity: 0 },
-                        }}
-                        transition={{ duration: 0.24, ease: 'easeOut' }}
-                        className="overflow-hidden"
+                      <div
+                        className={cn(
+                          'grid transition-[grid-template-rows,opacity] duration-300 ease-out',
+                          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
+                        )}
                       >
-                        <div className="px-6 pb-5 text-sm text-[#475467] leading-[24px] whitespace-normal">
-                          <ReactMarkdown
-                            components={{
-                              p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
-                              ul: ({ node, ...props }) => (
-                                <ul
-                                  className="list-disc list-outside pl-5 space-y-1 mb-4"
-                                  {...props}
-                                />
-                              ),
-                              ol: ({ node, ...props }) => (
-                                <ol
-                                  className="list-decimal list-outside pl-5 space-y-1 mb-4"
-                                  {...props}
-                                />
-                              ),
-                              a: ({ node, ...props }) => (
-                                <a
-                                  className="text-[#3B6BFF] underline hover:no-underline"
-                                  {...props}
-                                />
-                              ),
-                            }}
-                          >
-                            {faq.content?.replace(/\\n/g, '\n') || ''}
-                          </ReactMarkdown>
+                        <div className="overflow-hidden min-h-0">
+                          <div className="px-6 pb-5 text-sm text-[#475467] leading-[24px] whitespace-normal">
+                            <ReactMarkdown
+                              components={{
+                                p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
+                                ul: ({ node, ...props }) => (
+                                  <ul
+                                    className="list-disc list-outside pl-5 space-y-1 mb-4"
+                                    {...props}
+                                  />
+                                ),
+                                ol: ({ node, ...props }) => (
+                                  <ol
+                                    className="list-decimal list-outside pl-5 space-y-1 mb-4"
+                                    {...props}
+                                  />
+                                ),
+                                a: ({ node, ...props }) => (
+                                  <a
+                                    className="text-[#3B6BFF] underline hover:no-underline"
+                                    {...props}
+                                  />
+                                ),
+                              }}
+                            >
+                              {faq.content?.replace(/\\n/g, '\n') || ''}
+                            </ReactMarkdown>
+                          </div>
                         </div>
-                      </motion.div>
+                      </div>
                     </div>
                   );
                 })
