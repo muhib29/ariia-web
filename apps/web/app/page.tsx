@@ -1,11 +1,7 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
+import { HomeBelowFold } from '@/components/homepage/HomeBelowFold';
 import { HeroSection } from '@/components/homepage/hero-section';
-
-const HomeBelowFold = dynamic(
-  () => import('@/components/homepage/HomeBelowFold').then((m) => ({ default: m.HomeBelowFold })),
-  { loading: () => null },
-);
 import { fetchAPI } from '@/utils/api-helper';
 import { homeQuery } from '@/graphql/querys';
 

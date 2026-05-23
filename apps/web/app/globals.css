@@ -212,6 +212,47 @@ section {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/*
+ * Scroll-reveal animations: desktop only.
+ * On phones/tablets content is always fully visible (same UI, no fade) — avoids iOS
+ * white-screen bugs from opacity:0 + IntersectionObserver misses.
+ */
+.fade-in-when-in-view {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+}
+
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .fade-in-when-in-view:not(.fade-in-when-in-view--revealed) {
+    opacity: 0;
+    transform: translate3d(0, var(--fade-y, 20px), 0);
+    pointer-events: none;
+    transition:
+      opacity var(--fade-duration, 0.6s) cubic-bezier(0.25, 0.8, 0.25, 1) var(--fade-delay, 0ms),
+      transform var(--fade-duration, 0.6s) cubic-bezier(0.25, 0.8, 0.25, 1) var(--fade-delay, 0ms);
+  }
+
+  .fade-in-when-in-view--revealed {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
+    transition:
+      opacity var(--fade-duration, 0.6s) cubic-bezier(0.25, 0.8, 0.25, 1) var(--fade-delay, 0ms),
+      transform var(--fade-duration, 0.6s) cubic-bezier(0.25, 0.8, 0.25, 1) var(--fade-delay, 0ms);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-when-in-view {
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    transition: none !important;
+  }
+}
+
 /* Optimize section animations for smoother scroll */
 [style*="willChange"] {
   backface-visibility: hidden;

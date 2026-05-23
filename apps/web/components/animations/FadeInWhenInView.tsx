@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { cn } from '@workspace/ui/lib/utils';
 
 interface FadeInWhenInViewProps {
   children: React.ReactNode;
@@ -12,10 +13,12 @@ interface FadeInWhenInViewProps {
   immediate?: boolean;
 }
 
-function isNodeInViewport(node: HTMLElement): boolean {
-  const rect = node.getBoundingClientRect();
-  const vh = window.innerHeight || document.documentElement.clientHeight;
-  return rect.top < vh * 0.98 && rect.bottom > vh * 0.02;
+function prefersScrollReveal(): boolean {
+  if (typeof window === 'undefined') return false;
+  if (window.matchMedia('(max-width: 767px)').matches) return false;
+  if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return false;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+  return true;
 }
 
 export function FadeInWhenInView({
@@ -26,25 +29,29 @@ export function FadeInWhenInView({
   className = '',
   immediate = false,
 }: FadeInWhenInViewProps) {
+  if (immediate) {
+    return <div className={className}>{children}</div>;
+  }
+
   const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(immediate);
-  const [hasAnimated, setHasAnimated] = useState(immediate);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (immediate) return;
+    if (!prefersScrollReveal()) return;
+
     const node = ref.current;
     if (!node) return;
 
     let revealed = false;
-
     const reveal = () => {
       if (revealed) return;
       revealed = true;
       setIsVisible(true);
-      setHasAnimated(true);
     };
 
-    if (isNodeInViewport(node)) {
+    const rect = node.getBoundingClientRect();
+    const vh = window.innerHeight;
+    if (rect.top < vh && rect.bottom > 0) {
       reveal();
       return;
     }
@@ -56,45 +63,24 @@ export function FadeInWhenInView({
           observer.disconnect();
         }
       },
-      {
-        threshold: 0.05,
-        rootMargin: '0px',
-      },
+      { threshold: 0.01, rootMargin: '80px 0px' },
     );
 
     observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
-    const onScroll = () => {
-      if (isNodeInViewport(node)) {
-        reveal();
-        observer.disconnect();
-        window.removeEventListener('scroll', onScroll);
-      }
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('scroll', onScroll);
-    };
-  }, [immediate]);
-
-  const transition = `opacity ${duration}s cubic-bezier(0.25, 0.8, 0.25, 1) ${delay / 1000}s, transform ${duration}s cubic-bezier(0.25, 0.8, 0.25, 1) ${delay / 1000}s`;
+  const style = {
+    '--fade-delay': `${delay}ms`,
+    '--fade-duration': `${duration}s`,
+    '--fade-y': `${yOffset}px`,
+  } as React.CSSProperties;
 
   return (
     <div
       ref={ref}
-      className={className}
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translate3d(0, 0, 0)' : `translate3d(0, ${yOffset}px, 0)`,
-        visibility: isVisible ? 'visible' : 'hidden',
-        pointerEvents: isVisible ? 'auto' : 'none',
-        willChange: hasAnimated ? 'auto' : 'opacity, transform',
-        transition,
-      }}
-      aria-hidden={!isVisible}
+      className={cn('fade-in-when-in-view', isVisible && 'fade-in-when-in-view--revealed', className)}
+      style={style}
     >
       {children}
     </div>

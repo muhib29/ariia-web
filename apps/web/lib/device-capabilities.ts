@@ -53,6 +53,15 @@ export function shouldLoadSpline(): boolean {
   return true;
 }
 
+/** Scroll-reveal fades break on iOS when content uses opacity:0 — desktop only. */
+export function shouldUseScrollReveal(): boolean {
+  if (typeof window === 'undefined') return false;
+  if (isTouchDevice()) return false;
+  if (window.matchMedia('(max-width: 767px)').matches) return false;
+  if (prefersReducedMotion()) return false;
+  return true;
+}
+
 /** Lenis smooth scroll fights native touch scrolling on iOS — use native scroll instead. */
 export function shouldUseSmoothScroll(): boolean {
   if (typeof window === 'undefined') return false;
