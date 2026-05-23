@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { shouldUseScrollReveal } from '@/lib/device-capabilities';
 
 let dotLottieModulePromise: Promise<typeof import('@lottiefiles/dotlottie-react')> | null = null;
 
@@ -79,6 +80,8 @@ const LottieAnimation = React.forwardRef<any, LottieAnimationProps>(
       return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
 
+    const useReveal = shouldUseScrollReveal();
+
     return (
       <div
         ref={containerRef}
@@ -87,7 +90,8 @@ const LottieAnimation = React.forwardRef<any, LottieAnimationProps>(
           width: '100%',
           height: '100%',
           minHeight: !hasEnteredView ? 120 : undefined,
-          visibility: inView || !playWhenInView ? 'visible' : 'hidden', // Reduce painting when off-screen
+          // On touch devices we avoid visibility:hidden to prevent iOS intersection/paint bugs.
+          visibility: useReveal && !inView && playWhenInView ? 'hidden' : 'visible',
         }}
       >
         {DotLottieComponent && hasEnteredView && (
