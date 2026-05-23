@@ -1,0 +1,10 @@
+{
+  "extends": "@workspace/typescript-config/base.json",
+  "compilerOptions": {
+    "types": ["./apps/web/custom-elements.d.ts"]
+  },
+  "include": [
+    "apps/web/**/*",
+    "packages/**/*"
+  ]
+}

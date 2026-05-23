@@ -1,0 +1,20 @@
+HTTP/1.1 400 Bad Request
+Server: openresty
+Date: Wed, 01 Apr 2026 22:22:05 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 139
+Connection: keep-alive
+Content-Security-Policy: connect-src 'self' https:;img-src 'self' data: blob: market-assets.strapi.io ariiaai-strapi-cms.s3.us-east-2.amazonaws.com *.s3.us-east-2.amazonaws.com;media-src 'self' data: blob: market-assets.strapi.io ariiaai-strapi-cms.s3.us-east-2.amazonaws.com *.s3.us-east-2.amazonaws.com;default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline'
+Referrer-Policy: no-referrer
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-DNS-Prefetch-Control: off
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-Permitted-Cross-Domain-Policies: none
+Vary: Origin
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+Strict-Transport-Security: max-age=63072000;includeSubDomains; preload
+
+{"data":null,"error":{"status":400,"name":"SyntaxError","message":"Expected property name or '}' in JSON at position 1 (line 1 column 2)"}}

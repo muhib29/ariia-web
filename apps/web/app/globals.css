@@ -1,0 +1,296 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '@workspace/ui/globals.css';
+
+@layer base {
+  :root {
+    --font-inter: 'Inter', sans-serif;
+    --background: hsl(0 0% 100%);
+    --foreground: hsl(0 0% 3.9%);
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(0 0% 3.9%);
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(0 0% 98%);
+    --primary: hsl(0 0% 9%);
+    --primary-foreground: hsl(0 0% 98%);
+    --secondary: hsl(0 0% 96.1%);
+    --secondary-foreground: hsl(0 0% 9%);
+    --muted: hsl(0 0% 96.1%);
+    --muted-foreground: hsl(0 0% 45.1%);
+    --accent: hsl(0 0% 96.1%);
+    --accent-foreground: hsl(0 0% 9%);
+    --destructive: hsl(0 84.2% 60.2%);
+    --destructive-foreground: hsl(0 0% 98%);
+    --border: hsl(0 0% 89.8%);
+    --input: hsl(0 0% 89.8%);
+    --ring: hsl(0 0% 3.9%);
+    --chart-1: hsl(12 76% 61%);
+    --chart-2: hsl(173 58% 39%);
+    --chart-3: hsl(197 37% 24%);
+    --chart-4: hsl(43 74% 66%);
+    --chart-5: hsl(27 87% 67%);
+    --radius: 0.5rem;
+    --sidebar-background: hsl(0 0% 98%);
+    --sidebar-foreground: hsl(240 5.3% 26.1%);
+    --sidebar-primary: hsl(240 5.9% 10%);
+    --sidebar-primary-foreground: hsl(0 0% 98%);
+    --sidebar-accent: hsl(240 4.8% 95.9%);
+    --sidebar-accent-foreground: hsl(240 5.9% 10%);
+    --sidebar-border: hsl(220 13% 91%);
+    --sidebar-ring: hsl(217.2 91.2% 59.8%);
+    --Black: #101828;
+
+     /* Footer specific */
+    --footer: hsl(0 0% 0%);
+    --footer-foreground: hsl(0 0% 100%);
+    --footer-muted: hsl(0 0% 70%);
+    --footer-glow-start: hsl(195 84% 60%);
+    --footer-glow-end: hsl(236 100% 71%);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    @apply border-border;
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill, stroke, opacity,
+      box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+  body {
+    @apply bg-white text-foreground;
+    font-family: var(--font-inter), sans-serif;
+  }
+}
+
+/* Global mobile heading sizing for consistency */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.75rem; /* Tailwind text-2xl */
+    line-height: 2.25rem; /* Tailwind leading-9 approx */
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Enhanced Vertical lines pattern - More lines, runs from header */
+.vertical-lines {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 19px,
+    rgba(0, 0, 0, 0.045) 20px,
+    rgba(0, 0, 0, 0.045) 20px
+  );
+  background-repeat: repeat;
+}
+
+@media (min-width: 768px) {
+  .vertical-lines {
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      rgba(0, 0, 0, 0.055) 40px,
+      rgba(0, 0, 0, 0.055) 40px
+    );
+    background-repeat: repeat;
+  }
+}
+
+/* Header vertical lines - continuous pattern */
+.header-vertical-lines {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 19px,
+    rgba(0, 0, 0, 0.045) 20px,
+    rgba(0, 0, 0, 0.045) 20px
+  );
+}
+
+@media (min-width: 768px) {
+  .header-vertical-lines {
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 39px,
+      rgba(0, 0, 0, 0.055) 40px,
+      rgba(0, 0, 0, 0.055) 40px
+    );
+  }
+}
+
+/* Custom styles for homepage */
+.homepage-header {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Custom gradient backgrounds */
+.gradient-bg {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+}
+
+/* Typography improvements */
+.font-display {
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+@keyframes gradient-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-header-animated-purple {
+  background: linear-gradient(90deg, #3B6BFF, #7F56D9);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-move 4s ease-in-out infinite;
+  display: inline-block;
+}
+
+.gradient-header-animated {
+  background: linear-gradient(90deg, #3B6BFF, #7F56D9);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-move 4s ease-in-out infinite;
+  display: inline-block;
+}
+
+.gradient-header-no-anim {
+  animation: none !important;
+  background-size: 100% 100%;
+}
+
+.gradient-header-hero-blue {
+  background: linear-gradient(90deg, #4BC1ED 0%, #4FA2D9 50%, #1771B1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Cursor outside gradient so Chrome desktop paints it (avoids -webkit-text-fill-color: transparent) */
+.typewriter-cursor {
+  color: #2372ae;
+  -webkit-text-fill-color: #2372ae;
+}
+
+/* Section backgrounds: fade to transparent at top and bottom to avoid hard edges between sections */
+.section-bg-fade {
+  mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+}
+
+/* About Us / Innovation section: single space between paragraphs (overrides base p margins) */
+.innovation-description p {
+  margin-top: 0 !important;
+  margin-bottom: 0.75em !important;
+}
+.innovation-description p:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Smooth scroll performance optimization */
+section {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Optimize section animations for smoother scroll */
+[style*="willChange"] {
+  backface-visibility: hidden;
+}
+
+@keyframes fade-slide-in-bottom {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-in-bottom {
+  animation: fade-slide-in-bottom 0.6s ease-out forwards;
+}
+
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Hide Spline badge by targeting the #logo anchor */
+#logo {
+  display: none !important;
+}
+
+/* 1860x1050 tuning: keep hero layout unchanged, lower only the orb a bit */
+@media (min-width: 1820px) and (max-width: 1900px) and (min-height: 1000px) and (max-height: 1080px) {
+  .hero-orb-breakpoint-1860 {
+    margin-top: 3rem !important;
+  }
+}
+
+/* Custom gradient for section header title */
+.gradient-title-features {
+  @apply inline bg-gradient-to-r bg-clip-text text-transparent;
+  background-image: linear-gradient(90.58deg, rgba(99, 91, 255, 0.5) 35.93%, #635BFF 51.47%, #635BFF 67.02%);
+}
+
+/* Mobile touch feedback for buttons and button-like controls */
+@media (hover: none) and (pointer: coarse) {
+  button,
+  [data-slot='button'],
+  a[role='button'] {
+    -webkit-tap-highlight-color: rgba(59, 107, 255, 0.22);
+    touch-action: manipulation;
+  }
+
+  button:active:not(:disabled),
+  [data-slot='button']:active,
+  a[role='button']:active {
+    transform: scale(0.97);
+    filter: brightness(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button:active:not(:disabled),
+  [data-slot='button']:active,
+  a[role='button']:active {
+    transform: none;
+  }
+}
