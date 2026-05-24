@@ -82,7 +82,6 @@ export const SPLINE_SCENES: Record<string, SplineSceneConfig> = {
       desktop: '300px',
     },
     disableInteractions: true,
-    fallbackVariant: 'orb',
   },
   careerRoles: {
     id: 'career-role',
@@ -93,6 +92,5 @@ export const SPLINE_SCENES: Record<string, SplineSceneConfig> = {
       desktop: '310px',
     },
     disableInteractions: true,
-    fallbackVariant: 'orb',
   },
 };

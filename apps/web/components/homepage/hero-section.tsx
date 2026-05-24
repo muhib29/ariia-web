@@ -10,7 +10,6 @@ import { FadeInWhenInView } from '@/components/animations/FadeInWhenInView';
 import { useIsMobileResolved } from '@/hooks/useClientMediaQuery';
 import dynamic from 'next/dynamic';
 import { SPLINE_SCENES } from '@/config/spline-scenes';
-import { SplineStaticPlaceholder } from '@/components/SplineStaticPlaceholder';
 import { HeroLogo } from '../icons/HeroLogo';
 
 const DesktopSplineScene = dynamic(() => import('@/components/SplineScene'), { ssr: false });
@@ -32,15 +31,8 @@ export interface HeroSectionProps {
 
 export { FadeInWhenInView };
 
-function SmoothTypewriter({
-  words,
-  renderCursor = true,
-}: {
-  words: string[];
-  renderCursor?: boolean;
-}) {
-  const safeWords =
-    words && words.length > 0 ? words : ['AI Agents', 'Smart Assistants', 'Digital Co-Pilots'];
+function SmoothTypewriter({ words, renderCursor = true }: { words: string[]; renderCursor?: boolean }) {
+  const safeWords = words && words.length > 0 ? words : ['AI Agents', 'Smart Assistants', 'Digital Co-Pilots'];
   const [wordIndex, setWordIndex] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -59,16 +51,12 @@ function SmoothTypewriter({
       setWordIndex((prev) => (prev + 1) % safeWords.length);
     } else {
       timeoutId = window.setTimeout(() => {
-        setDisplayText((prev) =>
-          isDeleting ? prev.slice(0, -1) : currentWord.slice(0, prev.length + 1),
-        );
+        setDisplayText((prev) => (isDeleting ? prev.slice(0, -1) : currentWord.slice(0, prev.length + 1)));
       }, typingSpeed);
     }
 
     return () => {
-      if (timeoutId) {
-        window.clearTimeout(timeoutId);
-      }
+      if (timeoutId) window.clearTimeout(timeoutId);
     };
   }, [displayText, isDeleting, safeWords, wordIndex]);
 
@@ -76,10 +64,7 @@ function SmoothTypewriter({
     <>
       <span>{displayText}</span>
       {renderCursor && (
-        <span
-          className="typewriter-cursor ml-0.5 inline-block min-w-[0.35em] w-[10px] animate-pulse align-baseline"
-          aria-hidden
-        >
+        <span className="typewriter-cursor ml-0.5 inline-block min-w-[0.35em] w-[10px] animate-pulse align-baseline" aria-hidden>
           _
         </span>
       )}
@@ -98,23 +83,17 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
   const itemRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const [pathData, setPathData] = useState<string | null>(null);
   const showConnector = Boolean(rightContent?.listOfWork?.length);
-  const typewriterWords =
-    leftContent?.typewriterText?.length
-      ? leftContent.typewriterText
-      : ['AI Agents', 'Smart Assistants', 'Digital Co-Pilots'];
+  const typewriterWords = leftContent?.typewriterText?.length ? leftContent.typewriterText : ['AI Agents', 'Smart Assistants', 'Digital Co-Pilots'];
 
   const updatePath = useCallback(() => {
     if (!showConnector) {
       setPathData(null);
       return;
     }
-
     const selectedRef = itemRefs.current[selectedBusiness];
     const orb = orbRef.current;
     const container = containerRef.current;
-
     if (!selectedRef || !orb || !container) return;
-
     const itemRect = selectedRef.getBoundingClientRect();
     const orbRect = orb.getBoundingClientRect();
     const containerRect = container.getBoundingClientRect();
@@ -123,14 +102,9 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
     const orbCenterX = orbRect.left + orbRect.width / 2 - containerRect.left;
     const itemIsLeftOfOrb = itemCenterX <= orbCenterX;
 
-    const itemAnchorX = itemIsLeftOfOrb
-      ? itemRect.right - containerRect.left
-      : itemRect.left - containerRect.left;
-    const orbAnchorX = itemIsLeftOfOrb
-      ? orbRect.left - containerRect.left
-      : orbRect.right - containerRect.left;
+    const itemAnchorX = itemIsLeftOfOrb ? itemRect.right - containerRect.left : itemRect.left - containerRect.left;
+    const orbAnchorX = itemIsLeftOfOrb ? orbRect.left - containerRect.left : orbRect.right - containerRect.left;
 
-    // Keep a tiny inset from anchors so the connector visually touches both ends.
     const itemOffset = isMobile === true ? 3 : 5;
     const orbOffset = isMobile === true ? 1 : 2;
     const startX = itemAnchorX + (itemIsLeftOfOrb ? itemOffset : -itemOffset);
@@ -159,7 +133,6 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
       setIsAnimationComplete(true);
       return;
     }
-
     const connectorDelay = isMobile === true ? 350 : 1000;
     const timer = setTimeout(() => {
       setIsAnimationComplete(true);
@@ -190,60 +163,26 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
 
   return (
     <section className="relative flex flex-col justify-center bg-white overflow-hidden min-h-[760px] md:min-h-[780px] lg:h-[860px] lg:min-h-[860px] lg:max-h-[860px] 2xl:h-[900px] 2xl:min-h-[900px] 2xl:max-h-[900px] pt-20 xl:pt-10 pb-6 md:pb-8 lg:pb-0 hero-orb-breakpoint-1860">
-      {/* Decorative elements */}
       <div className="absolute inset-0 h-full w-full vertical-lines" />
 
-      {isMobile === false && (
-        <div className="absolute top-[57%] lg:top-[50%] 2xl:top-[50%] left-1/2 w-[690px] h-[690px] -translate-x-1/2 -translate-y-1/2 scale-95 hidden md:block">
+      {isMobile !== undefined && isMobile === false && (
+        <div className="pointer-events-none absolute top-[57%] z-0 lg:top-[50%] 2xl:top-[50%] left-1/2 w-[690px] h-[690px] -translate-x-1/2 -translate-y-1/2 scale-95 hidden md:block">
           <DesktopSplineScene config={SPLINE_SCENES.heroPattern} />
         </div>
       )}
 
-      {isMobile === true && (
+      {isMobile !== undefined && isMobile === true && (
         <div className="absolute top-[26%] left-1/2 w-[390px] h-[390px] sm:w-[600px] sm:h-[600px] -translate-x-1/2 -translate-y-1/2 scale-105 block md:hidden">
-          <SplineStaticPlaceholder config={SPLINE_SCENES.heroPatternMobile} />
+          <DesktopSplineScene config={SPLINE_SCENES.heroPatternMobile} />
         </div>
       )}
 
-      <div className="absolute inset-0 h-full w-full overflow-hidden pointer-events-none">
-        <div
-          className="absolute block bottom-[-80px] right-[-100px] w-[300px] h-[260px] rounded-full blur-3xl opacity-30 bg-[linear-gradient(135deg,_#6779FF_0%,_#4E97FA_50%,_#35B5F5_100%)] md:hidden"
-          
-        />
-        <div
-          className="absolute block top-[400px] left-[80px] w-2xs h-28 rounded-full blur-3xl opacity-45 bg-gradient-to-r from-[#4E97FA] to-[#2EFFEA] md:hidden"
-        />
-        <div
-          className="absolute md:hidden block -bottom-[10px] -left-[100px] w-[740px] h-[270px] rounded-full blur-3xl opacity-[10%] bg-gradient-to-r from-[#6779FF] via-[#4E97FA] to-[#2EFFEA]"
-        />
-        <div
-          className="absolute hidden md:block bottom-[-10px] left-[-100px] w-[380px] h-[420px] rounded-full blur-3xl opacity-15 bg-[linear-gradient(135deg,_#6779FF_0%,_#4E97FA_50%,_#35B5F5_100%)]"
-        />
-        <div
-          className="absolute hidden md:block bottom-[10px] left-[100px] w-[740px] h-[270px] rounded-full blur-3xl opacity-[28%] bg-gradient-to-r from-[#6779FF] via-[#4E97FA] to-[#2EFFEA]"
-        />
-        <div
-          className="absolute hidden md:block bottom-[50px] right-[525px] w-[380px] h-[240px] rounded-full blur-3xl opacity-[28%] bg-gradient-to-r from-[#7b9cfd] to-[#7abcff]"
-        />
-        <div
-          className="absolute hidden md:block bottom-[50px] right-[120px] w-[532px] h-[240px] rounded-full blur-3xl opacity-[28%] bg-gradient-to-r from-[#678dff] to-[#2E96FF]"
-        />
-      </div>
-
       <div className="relative max-w-[80rem] 2xl:max-w-[83rem] mx-auto px-6 md:px-12 z-10 -translate-y-2 md:-translate-y-10 lg:-translate-y-12 xl:-translate-y-14 2xl:-translate-y-16">
         <div className="grid lg:grid-cols-2 gap-5 md:gap-12 items-center pt-0">
-          {/* Left Column */}
           <div className="flex flex-col items-center lg:items-start mt-0 md:mt-2 lg:mt-0 space-y-1 md:space-y-5">
-            {/* Centered image */}
             <div className="w-full flex justify-center">
-              <FadeInWhenInView
-                className="relative top-0 w-[90px] h-[110px] md:h-[150px] md:w-[143px] md:right-0 lg:right-16 xl:right-28 mb-4 md:mb-0"
-                delay={0}
-              >
-                <HeroLogo
-                  priority
-                  className="object-contain max-w-[90px]  md:pb-2 md:max-w-full"
-                />
+              <FadeInWhenInView className="relative top-0 w-[90px] h-[110px] md:h-[150px] md:w-[143px] md:right-0 lg:right-16 xl:right-28 mb-4 md:mb-0" delay={0}>
+                <HeroLogo priority className="object-contain max-w-[90px]  md:pb-2 md:max-w-full" />
               </FadeInWhenInView>
             </div>
 
@@ -253,30 +192,24 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
                   <span className="block md:hidden">Reimagine Your</span>
                   <span className="block md:hidden">Business Operations</span>
                   <span className="block md:hidden">
-                    with
-                    {' '}
+                    with{' '}
                     <GradientHeader className="gradient-header-no-anim gradient-header-hero-blue inline">
                       <SmoothTypewriter words={typewriterWords} />
                     </GradientHeader>
                   </span>
 
-                  {/* Desktop: keep current dynamic title */}
-                  <span className="hidden md:inline">
-                    {leftContent?.title || 'Reimagine Your Business Operations with'}
-                  </span>
+                  <span className="hidden md:inline">{leftContent?.title || 'Reimagine Your Business Operations with'}</span>
                   <span className="hidden md:mt-0 md:ml-2 md:inline-flex md:items-baseline">
                     <GradientHeader className="gradient-header-no-anim gradient-header-hero-blue">
                       <SmoothTypewriter words={typewriterWords} renderCursor={false} />
                     </GradientHeader>
-                    <span
-                      className="typewriter-cursor ml-0.5 inline-block min-w-[0.35em] w-[10px] animate-pulse align-baseline"
-                      aria-hidden
-                    >
+                    <span className="typewriter-cursor ml-0.5 inline-block min-w-[0.35em] w-[10px] animate-pulse align-baseline" aria-hidden>
                       _
                     </span>
                   </span>
                 </h1>
               </FadeInWhenInView>
+
               <FadeInWhenInView delay={300}>
                 <div className="text-gray-600 max-w-lg mx-auto lg:mx-0 text-[16px] md:text-[18px] leading-[27px]">
                   <ReactMarkdown>
@@ -289,14 +222,8 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
 
             {leftContent?.cta && (
               <FadeInWhenInView delay={400}>
-                <Button
-                  asChild
-                  className="w-full max-w-52 h-[42px] rounded-[118px] text-base bg-gradient-to-r from-[#3B6BFF] to-[#2E96FF] text-white font-medium shadow-lg my-2 hover:scale-105 hover:shadow-lg hover:brightness-110 hover:cursor-pointer active:scale-95 duration-300 ease-out transition-all md:text-[18px] md:h-[55px] md:min-w-60"
-                >
-                  <a
-                    href={leftContent.cta.httpsUrl || leftContent.cta.internalUrl || '#'}
-                    target={leftContent.cta.httpsUrl ? '_blank' : undefined}
-                  >
+                <Button asChild className="w-full max-w-52 h-[42px] rounded-[118px] text-base bg-gradient-to-r from-[#3B6BFF] to-[#2E96FF] text-white font-medium shadow-lg my-2 hover:scale-105 hover:shadow-lg hover:brightness-110 hover:cursor-pointer active:scale-95 duration-300 ease-out transition-all md:text-[18px] md:h-[55px] md:min-w-60">
+                  <a href={leftContent.cta.httpsUrl || leftContent.cta.internalUrl || '#'} target={leftContent.cta.httpsUrl ? '_blank' : undefined}>
                     {leftContent.cta.ctaText}
                   </a>
                 </Button>
@@ -304,12 +231,7 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
             )}
           </div>
 
-          {/* Right Column */}
-          <div
-            className="relative flex flex-row-reverse items-start justify-start md:justify-between gap-7 max-[424px]:gap-4 max-[374px]:gap-2 md:gap-0 min-h-[400px] md:min-h-[560px] xl:min-h-[580px] mt-0 md:mt-1 lg:gap-2 lg:flex-row lg:mt-0 overflow-hidden"
-            ref={containerRef}
-          >
-            {/* Businesses */}
+          <div className="relative flex flex-row-reverse items-start justify-start md:justify-between gap-7 max-[424px]:gap-4 max-[374px]:gap-2 md:gap-0 min-h-[400px] md:min-h-[560px] xl:min-h-[580px] mt-0 md:mt-1 lg:gap-2 lg:flex-row lg:mt-0 overflow-hidden" ref={containerRef}>
             <FadeInWhenInView className="relative z-10 flex-shrink-0 w-[147px] max-[374px]:w-[130px] ml-0 md:w-[200px] lg:pt-31">
               <div className="flex flex-col gap-2 md:gap-[17px]">
                 {rightContent?.listOfWork?.length
@@ -337,60 +259,27 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
               </div>
             </FadeInWhenInView>
 
-            {/* SVG Connector */}
             {showConnector && pathData && isAnimationComplete && (
               <svg className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none overflow-visible">
-                <motion.path
-                  key={pathData}
-                  d={pathData}
-                  fill="none"
-                  stroke="black"
-                  strokeWidth={2.5}
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.6, ease: 'easeInOut' }}
-                />
+                <motion.path key={pathData} d={pathData} fill="none" stroke="black" strokeWidth={2.5} initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.6, ease: 'easeInOut' }} />
               </svg>
             )}
 
-            {/* Orb & Button */}
             <div
               ref={orbRef}
-              className={
-                ' relative z-10 w-[182px] h-[182px] max-[424px]:w-[160px] max-[424px]:h-[160px] max-[374px]:w-[134px] max-[374px]:h-[134px] ml-0 -translate-x-5 max-[424px]:translate-x-0 md:translate-x-0 md:ml-0 rounded-full md:mx-0 md:w-[255px] md:h-[255px] mt-14 md:mt-16 lg:mt-32 xl:mt-40 2xl:mt-40 lg:ml-10'
-              }
+              className="relative z-10 w-[182px] h-[182px] max-[424px]:w-[160px] max-[424px]:h-[160px] max-[374px]:w-[134px] max-[374px]:h-[134px] ml-0 -translate-x-5 max-[424px]:translate-x-0 md:translate-x-0 md:ml-0 rounded-full overflow-hidden md:mx-0 md:w-[255px] md:h-[255px] mt-14 md:mt-16 lg:mt-32 xl:mt-40 2xl:mt-40 lg:ml-10"
             >
-              <div className="relative w-full h-full rounded-full overflow-hidden md:top-5">
-                {isMobile === false ? (
-                  <DesktopSplineScene config={SPLINE_SCENES.hero} priority fillParent />
-                ) : (
-                  <SplineStaticPlaceholder config={SPLINE_SCENES.hero} fillParent />
-                )}
+              <div className="relative size-full overflow-hidden rounded-full">
+                <DesktopSplineScene config={SPLINE_SCENES.hero} priority fillParent />
 
                 {isCalling ? (
-                  <button
-                    onClick={() => setIsCalling(false)}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[50px] h-[50px] rounded-full bg-blue-50 hover:bg-blue-50 border border-blue-300 shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-200"
-                    aria-label="Cancel Call"
-                  >
-                    <Image
-                      src="/images/Missed Outbound.svg"
-                      alt="Cancel Call"
-                      width={30}
-                      height={25}
-                      unoptimized
-                      className="object-contain"
-                    />
-                  </button>
+                  <button onClick={() => setIsCalling(false)} className="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 w-[50px] h-[50px] rounded-full bg-blue-50 hover:bg-blue-50 border border-blue-300 shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-200" aria-label="Cancel Call">
+                  <Image src="/images/Missed Outbound.svg" alt="Cancel Call" width={30} height={25} unoptimized className="object-contain" />
+                </button>
                 ) : (
                   rightContent?.cta && (
-                    <Button
-                      onClick={() => setIsCalling(true)}
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[40px] md:w-[150px] md:h-[48px] rounded-[60px] text-[14px] font-medium p-[3px] bg-[#a9d4ff39] backdrop-blur-md md:backdrop-blur-3xl hover:bg-[#43b9f1] in-hover:backdrop-blur-3xl"
-                    >
-                      <div className="w-full h-full bg-white rounded-[60px] text-gray-700 hover:bg-gray-50 shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center">
-                        {rightContent.cta.ctaText}
-                      </div>
+                    <Button onClick={() => setIsCalling(true)} className="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 w-[120px] h-[40px] md:w-[150px] md:h-[48px] rounded-[60px] text-[14px] font-medium p-[3px] bg-[#a9d4ff39] backdrop-blur-md md:backdrop-blur-3xl hover:bg-[#43b9f1] in-hover:backdrop-blur-3xl">
+                    <div className="w-full h-full bg-white rounded-[60px] text-gray-700 hover:bg-gray-50 shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center">{rightContent.cta.ctaText}</div>
                     </Button>
                   )
                 )}
