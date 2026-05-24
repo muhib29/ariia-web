@@ -32,12 +32,10 @@ export function supportsWebGL(): boolean {
   return webglSupported;
 }
 
-/** Whether this device should ever load Spline (desktop only, good connection). */
+/** Whether this device should load Spline/WebGL scenes. Touch devices stay off for stability/LCP; desktop loads by default unless explicitly disabled via env. */
 export function shouldLoadSpline(): boolean {
   if (typeof window === 'undefined') return false;
-  // Off by default — set NEXT_PUBLIC_ENABLE_SPLINE=true in Vercel when ready for 3D
-  if (process.env.NEXT_PUBLIC_ENABLE_SPLINE !== 'true') return false;
-  // Phones/tablets: CSS fallback only — Spline was blocking navigation & LCP
+  if (process.env.NEXT_PUBLIC_ENABLE_SPLINE === 'false') return false;
   if (isTouchDevice()) return false;
   if (prefersReducedMotion()) return false;
   if (!supportsWebGL()) return false;

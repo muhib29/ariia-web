@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const strapiUrl = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         {strapiUrl ? <link rel="preconnect" href={strapiUrl} crossOrigin="anonymous" /> : null}
       </head>

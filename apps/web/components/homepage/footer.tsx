@@ -201,7 +201,7 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
               {/* First Column - Logo and Social Icons */}
               <div className="flex flex-col md:flex-col items-center sm:pr-12 space-y-6 col-span-2 md:col-span-1">
                 <Link href="/">
-                  <HeroLogo width={70} height={70} priority={false} className="object-contain" />
+                  <HeroLogo width={70} height={70} className="object-contain" />
                 </Link>
                 {/* Social Icons */}
                 <div className="flex gap-4">

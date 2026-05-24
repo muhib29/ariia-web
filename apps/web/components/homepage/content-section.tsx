@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { DeferredImage } from '@/components/DeferredImage';
 import { SectionHeader } from '../SectionHeader';
 import { FadeInWhenInView } from './hero-section';
 
@@ -25,7 +24,7 @@ export function ContentSection() {
       num: '2',
       title: 'Customer Inquiries',
       desc: 'Provide instant, accurate responses to business\ninquiries — store hours, locations, promotions,\n policies, product availability, and pricing.',
-      imgSrc: '/images/customer-inquiries.png',
+      imgSrc: '/images/customer-inquiries.svg',
       bgColor: 'bg-white',
       bgImg: '/images/bg-shadow-2.svg',
       bgImgClass: 'opacity-100 scale-[1.15] md:scale-[1.15]',
@@ -45,7 +44,7 @@ export function ContentSection() {
       num: '4',
       title: 'Reservations & Phone Orders',
       desc: 'Capture real-time reservations and orders for restaurants, seamlessly integrated with your existing POS system to ensure accurate and efficient processing.',
-      imgSrc: '/images/reservations-interface.png',
+      imgSrc: '/images/reservations-interface.svg',
       bgColor: 'bg-white',
       bgImg: '/images/bg-shadow-4.svg',
       bgImgClass: 'opacity-100 scale-[1.15] md:scale-[1.15]',
@@ -58,9 +57,9 @@ export function ContentSection() {
     num: '5',
     title: 'Customer Support',
     desc: 'Resolves issues and escalates complaints, ensuring seamless customer engagement with minimal human involvement.',
-    imgLeft: '/images/card-5-mobile.png',
+    imgLeft: '/images/card-5-mobile.svg',
     imgleftmobile: '/images/mobile.svg',
-    imgRight: '/images/customer-support.png',
+    imgRight: '/images/card-5-right.svg',
     bgImg: '/images/bg-shadow-5.svg',
     mobileLeftBg: '/images/last-card-bg.svg',
     bgImgClass: 'opacity-100 scale-[1.15] md:scale-[1.15]',
@@ -68,11 +67,11 @@ export function ContentSection() {
   };
 
   return (
-    <section className="py-10  px-6 bg-white relative overflow-hidden">
-      <div className="absolute inset-0 section-bg-fade pointer-events-none homepage-decor-blur">
+    <section className="home-content-section py-10 px-6 bg-white relative overflow-hidden">
+      <div className="absolute inset-0 section-bg-fade pointer-events-none">
         <div className="absolute w-full h-[200px] top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[240px] bg-gradient-to-r from-[#4E97FA] to-[#35B5F5] opacity-30 z-0" />
       </div>
-      <div className="max-w-6xl mx-auto relative z-10 homepage-section-content">
+      <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center">
           <SectionHeader
             tag={'Conversational AI'}
@@ -94,7 +93,7 @@ export function ContentSection() {
                   <div
                     className={`absolute inset-0 z-0 pointer-events-none ${card.bgImgClass || 'opacity-80 mix-blend-multiply'}`}
                   >
-                    <DeferredImage src={card.bgImg} alt="" fill className="object-cover object-center" />
+                    <Image src={card.bgImg} alt="" fill className="object-cover object-center" />
                   </div>
                 )}
 
@@ -130,7 +129,7 @@ export function ContentSection() {
                   <div
                     className={`mt-4 md:mt-8 flex justify-center w-full relative ${card.num === '3' || card.num === '4' ? 'mt-2 md:mt-8' : ''}`}
                   >
-                    <DeferredImage
+                    <Image
                       src={card.imgSrc}
                       alt={card.title}
                       width={600}
@@ -159,7 +158,7 @@ export function ContentSection() {
                 <div
                   className={`absolute inset-0 z-0 pointer-events-none ${finalCard.bgImgClass || 'opacity-80 mix-blend-multiply'}`}
                 >
-                  <DeferredImage src={finalCard.bgImg} alt="" fill className="object-cover object-center" />
+                  <Image src={finalCard.bgImg} alt="" fill className="object-cover object-center" />
                 </div>
               )}
 
