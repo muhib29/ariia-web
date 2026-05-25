@@ -5,6 +5,8 @@ import type { SplineSceneConfig } from '@/config/spline-scenes';
 import { useScreenSize } from '@/hooks/useScreenSize';
 import { whenPageInteractive } from '@/lib/when-page-interactive';
 import { requestSplineSlot, releaseSplineSlot } from '@/lib/spline-loader';
+import { shouldLoadSpline } from '@/lib/device-capabilities';
+import { SplineStaticPlaceholder } from '@/components/SplineStaticPlaceholder';
 
 type SplineApplication = {
   setZoom: (zoom: number) => void;
@@ -35,18 +37,31 @@ export default function SplineScene({
   const [slotReady, setSlotReady] = useState(false);
   const [SplineComponent, setSplineComponent] = useState<SplineComponentType | null>(null);
   const [retryCount, setRetryCount] = useState(0);
+  const [webglAllowed, setWebglAllowed] = useState<boolean | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const staticReadyNotified = useRef(false);
   const screenSize = useScreenSize();
   const currentHeight = config.height[screenSize];
   const shouldLoadImmediately = priority || config.priority;
   const [isNearViewport, setIsNearViewport] = useState(shouldLoadImmediately);
 
   useEffect(() => {
-    return whenPageInteractive(() => setCanLoadSpline(true));
+    setWebglAllowed(shouldLoadSpline());
   }, []);
 
   useEffect(() => {
-    if (shouldLoadImmediately || !containerRef.current) return;
+    if (webglAllowed !== false || !onLoad || staticReadyNotified.current) return;
+    staticReadyNotified.current = true;
+    onLoad({ setZoom: () => {} });
+  }, [webglAllowed, onLoad]);
+
+  useEffect(() => {
+    if (webglAllowed !== true) return;
+    return whenPageInteractive(() => setCanLoadSpline(true));
+  }, [webglAllowed]);
+
+  useEffect(() => {
+    if (webglAllowed !== true || shouldLoadImmediately || !containerRef.current) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -60,10 +75,10 @@ export default function SplineScene({
 
     observer.observe(containerRef.current);
     return () => observer.disconnect();
-  }, [shouldLoadImmediately]);
+  }, [shouldLoadImmediately, webglAllowed]);
 
   useEffect(() => {
-    if (!canLoadSpline || !isNearViewport) return;
+    if (webglAllowed !== true || !canLoadSpline || !isNearViewport) return;
 
     let cancelled = false;
     let slotHeld = false;
@@ -100,7 +115,7 @@ export default function SplineScene({
         slotHeld = false;
       }
     };
-  }, [canLoadSpline, isNearViewport, retryCount]);
+  }, [canLoadSpline, isNearViewport, retryCount, webglAllowed]);
 
   const constrainCanvasToParent = useCallback(() => {
     if (!fillParent || !containerRef.current) return;
@@ -161,6 +176,7 @@ export default function SplineScene({
   const retryLoad = useCallback(() => {
     setError(false);
     setSplineComponent(null);
+    setIsLoaded(false);
     setRetryCount((prev) => prev + 1);
   }, []);
 
@@ -196,6 +212,8 @@ export default function SplineScene({
     }),
   };
 
+  const showPlaceholder = !error && (!isLoaded || webglAllowed !== true);
+
   return (
     <div
       ref={containerRef}
@@ -203,6 +221,15 @@ export default function SplineScene({
       style={containerStyle}
       data-scene-id={config.id}
     >
+      {showPlaceholder && (
+        <SplineStaticPlaceholder
+          config={config}
+          fillParent={fillParent}
+          className="absolute inset-0 h-full w-full"
+          style={fillParent ? undefined : { height: currentHeight }}
+        />
+      )}
+
       {error && (
         <div
           style={{
@@ -235,7 +262,7 @@ export default function SplineScene({
         </div>
       )}
 
-      {SplineComponent && slotReady && !error && (
+      {webglAllowed === true && SplineComponent && slotReady && !error && (
         <div style={splineStyle}>
           <SplineComponent
             scene={config.url}
@@ -250,4 +277,3 @@ export default function SplineScene({
     </div>
   );
 }
-
