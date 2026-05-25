@@ -5,6 +5,7 @@ import { useState, CSSProperties, useEffect, useRef } from 'react';
 import type { SplineSceneConfig } from '@/config/spline-scenes';
 import type { Application } from '@splinetool/runtime';
 import { useScreenSize } from '@/hooks/useScreenSize';
+import { SplineStaticPlaceholder } from './SplineStaticPlaceholder';
 
 interface SplineSceneProps {
   config: SplineSceneConfig;
@@ -182,6 +183,11 @@ export default function SplineScene({
       style={containerStyle}
       data-scene-id={config.id}
     >
+      {/* Static placeholder until Spline can load */}
+      {!SplineComponent && !error && (
+        <SplineStaticPlaceholder config={config} fillParent className="absolute inset-0" />
+      )}
+
       {/* Better Loading State for Hero */}
       {!isLoaded && !error && SplineComponent && (
         <div
