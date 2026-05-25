@@ -26,7 +26,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
         <link rel="preload" href="/images/hero-logo.png" as="image" type="image/png" />
-        {strapiUrl ? <link rel="preconnect" href={strapiUrl} crossOrigin="anonymous" /> : null}
+        <link rel="preload" href="/images/headerlogo.png" as="image" type="image/png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {strapiUrl ? (
+          <>
+            <link rel="dns-prefetch" href={strapiUrl} />
+            <link rel="preconnect" href={strapiUrl} crossOrigin="anonymous" />
+          </>
+        ) : null}
       </head>
       <body className="font-sans antialiased">
         <Providers>{children}</Providers>

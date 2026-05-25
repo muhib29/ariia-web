@@ -1,5 +1,3 @@
-export type SplineFallbackVariant = 'orb' | 'pattern';
-
 export interface SplineSceneConfig {
   id: string;
   url: string;
@@ -15,14 +13,6 @@ export interface SplineSceneConfig {
     disableOrbit?: boolean;
   };
   priority?: boolean;
-  /** Static placeholder style when Spline is deferred or skipped. */
-  fallbackVariant?: SplineFallbackVariant;
-}
-
-export function getSplineFallbackVariant(config: SplineSceneConfig): SplineFallbackVariant {
-  if (config.fallbackVariant) return config.fallbackVariant;
-  if (config.id.includes('pattern')) return 'pattern';
-  return 'orb';
 }
 
 export const SPLINE_SCENES: Record<string, SplineSceneConfig> = {
@@ -35,8 +25,7 @@ export const SPLINE_SCENES: Record<string, SplineSceneConfig> = {
       desktop: '300px',
     },
     disableInteractions: true,
-    priority: true,
-    fallbackVariant: 'orb',
+    priority: false,
   },
   heroPattern: {
     id: 'hero-pattern',
@@ -49,7 +38,6 @@ export const SPLINE_SCENES: Record<string, SplineSceneConfig> = {
       desktop: '690px',
     },
     disableInteractions: true,
-    fallbackVariant: 'pattern',
   },
   heroPatternMobile: {
     id: 'hero-pattern-mobile',
@@ -60,7 +48,6 @@ export const SPLINE_SCENES: Record<string, SplineSceneConfig> = {
       desktop: '690px',
     },
     disableInteractions: true,
-    fallbackVariant: 'pattern',
   },
   aboutUs: {
     id: 'about-us',
@@ -71,7 +58,6 @@ export const SPLINE_SCENES: Record<string, SplineSceneConfig> = {
       desktop: '450px',
     },
     disableInteractions: true,
-    fallbackVariant: 'orb',
   },
   career: {
     id: 'career',
@@ -94,3 +80,11 @@ export const SPLINE_SCENES: Record<string, SplineSceneConfig> = {
     disableInteractions: true,
   },
 };
+
+
+export type SplineFallbackVariant = 'orb' | 'pattern';
+
+export function getSplineFallbackVariant(config: SplineSceneConfig): SplineFallbackVariant {
+  if (config.id.includes('pattern')) return 'pattern';
+  return 'orb';
+}
