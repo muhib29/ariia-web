@@ -113,7 +113,6 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
   const [selectedBusiness, setSelectedBusiness] = useState(rightContent?.listOfWork?.[0] || '');
   const [isCalling, setIsCalling] = useState(false);
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
-  const [orbLoaded, setOrbLoaded] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const orbRef = useRef<HTMLDivElement>(null);
@@ -176,10 +175,6 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
     });
   }, [updatePath]);
 
-  const handleOrbLoad = useCallback(() => {
-    setOrbLoaded(true);
-  }, []);
-
   useEffect(() => {
     if (!showConnector) {
       setIsAnimationComplete(true);
@@ -225,7 +220,7 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
         </div>
       )}
 
-      {isMobile && orbLoaded && (
+      {isMobile && (
         <div className="absolute top-[26%] left-1/2 w-[390px] h-[390px] sm:w-[600px] sm:h-[600px] -translate-x-1/2 -translate-y-1/2 scale-105 block md:hidden">
           <SplineScene config={SPLINE_SCENES.heroPatternMobile} />
         </div>
@@ -374,7 +369,7 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
               }
             >
               <div className="relative w-full h-full rounded-full overflow-hidden md:top-5 ">
-                <SplineScene config={SPLINE_SCENES.hero} onLoad={handleOrbLoad} />
+                <SplineScene config={SPLINE_SCENES.hero} />
 
                 {isCalling ? (
                   <button

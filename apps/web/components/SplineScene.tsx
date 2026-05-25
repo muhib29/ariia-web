@@ -5,7 +5,6 @@ import { useState, CSSProperties, useEffect, useRef } from 'react';
 import type { SplineSceneConfig } from '@/config/spline-scenes';
 import type { Application } from '@splinetool/runtime';
 import { useScreenSize } from '@/hooks/useScreenSize';
-import { requestSplineSlot, releaseSplineSlot } from '@/lib/spline-loader';
 
 interface SplineSceneProps {
   config: SplineSceneConfig;
@@ -52,36 +51,16 @@ export default function SplineScene({
   useEffect(() => {
     if (!isNearViewport) return;
 
-    let slotAcquired = false;
-    let isMounted = true;
-
     // Wait for page to be interactive before loading Spline
-    const load = async () => {
-      try {
-        // Request a slot; wait until no other Spline is loading
-        await requestSplineSlot();
-        slotAcquired = true;
-
-        if (!isMounted) {
-          releaseSplineSlot();
-          return;
-        }
-
-        const mod = await import('@splinetool/react-spline');
-        
-        if (!isMounted) {
-          releaseSplineSlot();
-          return;
-        }
-
-        setSplineComponent(() => mod.default);
-      } catch (err) {
-        console.error('Failed to load Spline:', err);
-        setError(true);
-        if (slotAcquired) {
-          releaseSplineSlot();
-        }
-      }
+    const load = () => {
+      import('@splinetool/react-spline')
+        .then((mod) => {
+          setSplineComponent(() => mod.default);
+        })
+        .catch((err) => {
+          console.error('Failed to load Spline:', err);
+          setError(true);
+        });
     };
 
     if (document.readyState === 'complete') {
@@ -91,23 +70,12 @@ export default function SplineScene({
         requestIdleCallback ? requestIdleCallback(load) : setTimeout(load, 200);
       }, { once: true });
     }
-
-    // Cleanup on unmount
-    return () => {
-      isMounted = false;
-      if (slotAcquired) {
-        releaseSplineSlot();
-      }
-    };
   }, [isNearViewport]);
 
 
 
   const handleLoad = (spline: Application) => {
     setIsLoaded(true);
-
-    // Release the slot so the next queued Spline scene can start
-    releaseSplineSlot();
 
     // Disable all interactions completely
     if (config.disableInteractions) {
