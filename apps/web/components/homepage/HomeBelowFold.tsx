@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { FAQSectionProps } from './faqsection';
 import type { SecuritySectionProps } from './security-section';
 import type { UseCasesSectionProps } from './use-cases-section';
@@ -30,16 +31,47 @@ interface HomeBelowFoldProps {
   faqProps: FAQSectionProps | null;
 }
 
-/** Below-fold sections — code-split only; always mounted (no viewport unmount). */
+/** Lightweight wrapper that mounts children only when near viewport. */
+function Deferred({
+  children,
+  rootMargin = '300px',
+}: {
+  children: ReactNode | (() => ReactNode);
+  rootMargin?: string;
+}) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    if (mounted || !ref.current) return;
+
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMounted(true);
+          obs.disconnect();
+        }
+      },
+      { rootMargin },
+    );
+
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [mounted, rootMargin]);
+
+  return <div ref={ref}>{mounted ? (typeof children === 'function' ? (children as any)() : children) : null}</div>;
+}
+
+/** Below-fold sections — code-split + viewport-gated so they don't mount on initial paint. */
 export function HomeBelowFold({ useCasesProps, securityProps, faqProps }: HomeBelowFoldProps) {
   return (
     <>
-      <VideoSection />
-      <ContentSection />
-      {useCasesProps && <UseCasesSection {...useCasesProps} />}
-      {securityProps && <SecuritySection {...securityProps} />}
-      {faqProps && <FAQSection {...faqProps} />}
-      <NewsletterFooter />
+      <Deferred>{() => <VideoSection />}</Deferred>
+      <Deferred>{() => <ContentSection />}</Deferred>
+      {useCasesProps && <Deferred>{() => <UseCasesSection {...useCasesProps} />}</Deferred>}
+      {securityProps && <Deferred>{() => <SecuritySection {...securityProps} />}</Deferred>}
+      {faqProps && <Deferred>{() => <FAQSection {...faqProps} />}</Deferred>}
+      <Deferred>{() => <NewsletterFooter />}</Deferred>
     </>
   );
 }

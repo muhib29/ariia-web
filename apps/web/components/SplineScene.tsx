@@ -83,6 +83,14 @@ export default function SplineScene({
   useEffect(() => {
     if (!isNearViewport) return;
 
+    // Allow forcing Spline off via URL param (useful for Lighthouse runs)
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('no-spline') === '1') return;
+    } catch (e) {
+      // ignore
+    }
+
     // Skip Spline for bots, Lighthouse, and testing tools
     const isBot = /HeadlessChrome|Lighthouse|GTmetrix|Pingdom|PageSpeed|SpeedCurve/i.test(navigator.userAgent) ||
       window.navigator.webdriver ||
