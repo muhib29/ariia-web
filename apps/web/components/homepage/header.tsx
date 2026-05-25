@@ -227,8 +227,7 @@ function HeaderContent({
   isSticky?: boolean;
 }) {
   const menuItemClasses = (href: string) =>
-    `flex items-start gap-3 p-3 rounded-lg transition-colors ${
-      activePath === href ? 'bg-[#EEFBFF]' : ''
+    `flex items-start gap-3 p-3 rounded-lg transition-colors ${activePath === href ? 'bg-[#EEFBFF]' : ''
     } menu-item-hover`;
 
   const bgClass = isSticky ? 'bg-white/70 backdrop-blur-md' : 'bg-white';
@@ -246,7 +245,9 @@ function HeaderContent({
         <Link href="/" className="flex items-center justify-center mr-0 shrink-0 md:mr-4">
           <AriiaSvgMark priority className="w-20 h-10 md:h-9 md:w-28" />
         </Link>
-
+        {/* <Link href="/" className="flex items-center justify-center mr-0 shrink-0 md:mr-4">
+          <AriiaSvgMark className="w-20 h-10 md:h-9 md:w-28" />
+        </Link> */}
         <nav className="hidden md:flex items-center space-x-6">
           <Link
             href="/features"
@@ -271,9 +272,8 @@ function HeaderContent({
             <button className="flex items-center text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors outline-none rounded-full py-2 px-3 -mx-3 hover:bg-[#EEFBFF]">
               Company
               <ChevronDown
-                className={`ml-1 h-4 w-4 transition-transform duration-200 ${
-                  hoveredDropdown === 'company' ? 'rotate-180' : ''
-                }`}
+                className={`ml-1 h-4 w-4 transition-transform duration-200 ${hoveredDropdown === 'company' ? 'rotate-180' : ''
+                  }`}
               />
             </button>
 
@@ -309,9 +309,8 @@ function HeaderContent({
             <button className="flex items-center text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors outline-none rounded-full py-2 px-3 -mx-2 hover:bg-[#EEFBFF]">
               Resources
               <ChevronDown
-                className={`ml-1 h-4 w-4 transition-transform duration-200 ${
-                  hoveredDropdown === 'resources' ? 'rotate-180' : ''
-                }`}
+                className={`ml-1 h-4 w-4 transition-transform duration-200 ${hoveredDropdown === 'resources' ? 'rotate-180' : ''
+                  }`}
               />
             </button>
 
@@ -615,9 +614,8 @@ export function Header({ isHomePage = true }: { isHomePage?: boolean }) {
       />
 
       <header
-        className={`transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-          isHomePage && !isScrolled ? ' header-vertical-lines' : ''
-        } fixed left-0 w-full z-50 !bg-transparent`}
+        className={`transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${isHomePage && !isScrolled ? ' header-vertical-lines' : ''
+          } fixed left-0 w-full z-50 !bg-transparent`}
         style={{
           maxWidth: '100vw',
           top: isScrolled ? '0px' : '0px',
