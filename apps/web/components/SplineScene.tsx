@@ -1,21 +1,17 @@
+// components/SplineScene.tsx
 'use client';
 
 import { useState, CSSProperties, useEffect, useRef } from 'react';
 import type { SplineSceneConfig } from '@/config/spline-scenes';
 import type { Application } from '@splinetool/runtime';
 import { useScreenSize } from '@/hooks/useScreenSize';
-import { useIdleReady } from '@/hooks/useIdleReady';
-import { shouldLoadSpline } from '@/lib/device-capabilities';
-import { requestSplineSlot, releaseSplineSlot } from '@/lib/spline-loader';
-import { SplineFallback } from './SplineFallback';
 
 interface SplineSceneProps {
   config: SplineSceneConfig;
   className?: string;
   style?: CSSProperties;
   onLoad?: (spline: Application) => void;
-  priority?: boolean;
-  deferMs?: number;
+  priority?: boolean; // For hero sections
 }
 
 export default function SplineScene({
@@ -24,31 +20,18 @@ export default function SplineScene({
   style = {},
   onLoad,
   priority = false,
-  deferMs = 0,
 }: SplineSceneProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [SplineComponent, setSplineComponent] = useState<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const screenSize = useScreenSize();
   const currentHeight = config.height[screenSize];
-  const canUseSpline = shouldLoadSpline();
-  const idleReady = useIdleReady(priority ? 1200 : 3000);
   const shouldLoadImmediately = priority || config.priority;
-  const [isNearViewport, setIsNearViewport] = useState(false);
-  const [loadAllowed, setLoadAllowed] = useState(false);
-  const [hasSlot, setHasSlot] = useState(false);
+  const [isNearViewport, setIsNearViewport] = useState(shouldLoadImmediately);
 
   useEffect(() => {
-    if (!canUseSpline || !idleReady) return;
-    const delay = deferMs > 0 ? deferMs : 0;
-    const timer = window.setTimeout(() => setLoadAllowed(true), delay);
-    return () => window.clearTimeout(timer);
-  }, [canUseSpline, idleReady, deferMs]);
-
-  useEffect(() => {
-    if (!containerRef.current) return;
+    if (shouldLoadImmediately || !containerRef.current) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -57,67 +40,64 @@ export default function SplineScene({
           observer.disconnect();
         }
       },
-      { rootMargin: shouldLoadImmediately ? '0px' : '120px 0px' },
+      { rootMargin: '320px 0px' },
     );
 
     observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, [shouldLoadImmediately]);
 
+  // Dynamically load Spline only when needed on client side
   useEffect(() => {
-    if (!canUseSpline || !loadAllowed || !isNearViewport) return;
+    if (!isNearViewport) return;
 
-    let cancelled = false;
-
-    requestSplineSlot().then(() => {
-      if (cancelled) {
-        releaseSplineSlot();
-        return;
-      }
-      setHasSlot(true);
-
+    // Wait for page to be interactive before loading Spline
+    const load = () => {
       import('@splinetool/react-spline')
         .then((mod) => {
-          if (!cancelled) setSplineComponent(mod.default);
+          setSplineComponent(() => mod.default);
         })
         .catch((err) => {
           console.error('Failed to load Spline:', err);
-          if (!cancelled) setError(true);
-          releaseSplineSlot();
+          setError(true);
         });
-    });
-
-    return () => {
-      cancelled = true;
     };
-  }, [canUseSpline, loadAllowed, isNearViewport]);
 
-  useEffect(() => {
-    return () => {
-      if (hasSlot && !isLoaded) releaseSplineSlot();
-    };
-  }, [hasSlot, isLoaded]);
+    if (document.readyState === 'complete') {
+      requestIdleCallback ? requestIdleCallback(load) : setTimeout(load, 200);
+    } else {
+      window.addEventListener('load', () => {
+        requestIdleCallback ? requestIdleCallback(load) : setTimeout(load, 200);
+      }, { once: true });
+    }
+  }, [isNearViewport]);
+
+
 
   const handleLoad = (spline: Application) => {
     setIsLoaded(true);
-    releaseSplineSlot();
 
+    // Disable all interactions completely
     if (config.disableInteractions) {
       try {
         spline.setZoom(1);
+
+        // Disable all mouse events
         const canvas = document.querySelector(`[data-scene-id="${config.id}"] canvas`);
-        if (canvas) (canvas as HTMLElement).style.pointerEvents = 'none';
-      } catch {
-        /* ignore */
+        if (canvas) {
+          (canvas as HTMLElement).style.pointerEvents = 'none';
+        }
+      } catch (err) {
+        console.warn('Could not disable interactions:', err);
       }
     }
+
     onLoad?.(spline);
   };
 
   const handleError = (err: Error) => {
     setError(true);
-    releaseSplineSlot();
-    console.error(`Failed to load scene: ${config.id}`, err);
+    console.error(`✗ Failed to load scene: ${config.id}`, err);
   };
 
   const containerStyle: CSSProperties = {
@@ -127,12 +107,12 @@ export default function SplineScene({
     ...style,
   };
 
+  
+
   const splineStyle: CSSProperties = {
     width: '100%',
     height: currentHeight,
     background: 'transparent',
-    opacity: isLoaded ? 1 : 0,
-    transition: 'opacity 0.5s ease',
     ...(config.disableInteractions && {
       pointerEvents: 'none',
       touchAction: 'none',
@@ -140,24 +120,65 @@ export default function SplineScene({
     }),
   };
 
-  const fallbackVariant = config.id.includes('pattern') ? 'pattern' : 'orb';
-
-  if (!canUseSpline) {
-    return (
-      <div className={`spline-container ${className}`} style={containerStyle} data-scene-id={config.id}>
-        <SplineFallback variant={fallbackVariant} style={{ width: '100%', height: currentHeight }} />
-      </div>
-    );
-  }
-
   return (
-    <div ref={containerRef} className={`spline-container ${className}`} style={containerStyle} data-scene-id={config.id}>
-      <SplineFallback
-        variant={fallbackVariant}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: currentHeight }}
-      />
+      <div
+        ref={containerRef}
+         className={`spline-container ${className}`}
+         style={containerStyle}
+         data-scene-id={config.id}
+       >
+      {/* Better Loading State for Hero */}
+      {!isLoaded && !error && SplineComponent && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'transparent',
+            opacity: priority ? 0.5 : 1,
+            transition: 'opacity 0.3s ease',
+          }}
+        >
+          <div className="animate-spin h-6 w-6 border-3 border-primary/50 border-t-transparent rounded-full" />
+        </div>
+      )}
 
-      {SplineComponent && !error && loadAllowed && isNearViewport && (
+      {/* Error State */}
+      {error && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: '#fee',
+            color: '#dc2626',
+            gap: '12px',
+          }}
+        >
+          <p>Unable to load 3D scene</p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              padding: '8px 16px',
+              background: '#dc2626',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+            }}
+          >
+            Retry
+          </button>
+        </div>
+      )}
+
+      {/* Spline Scene */}
+      {SplineComponent && !error && (
         <div style={splineStyle}>
           <SplineComponent scene={config.url} onLoad={handleLoad} onError={handleError} />
         </div>

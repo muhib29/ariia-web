@@ -3,15 +3,38 @@
 import Image from 'next/image';
 import { Button } from '@workspace/ui/components/button';
 import { useLayoutEffect, useRef, useState, useEffect, useCallback } from 'react';
-import ReactMarkdown from 'react-markdown';
 import { GradientHeader } from './GradientHeader';
 import { FadeInWhenInView } from '@/components/animations/FadeInWhenInView';
-import { useIsMobileResolved } from '@/hooks/useClientMediaQuery';
+import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
+import { SPLINE_SCENES } from '@/config/spline-scenes';
+import { HeroLogo } from '../icons/HeroLogo';
+
 import dynamic from 'next/dynamic';
 
 const SplineScene = dynamic(() => import('../SplineScene'), { ssr: false });
-import { SPLINE_SCENES } from '@/config/spline-scenes';
-import { HeroLogo } from '../icons/HeroLogo';
+const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
+
+const HeroConnectorPath = dynamic(
+  () =>
+    import('framer-motion').then((mod) => {
+      function HeroConnectorPath({ pathData }: { pathData: string }) {
+        return (
+          <mod.motion.path
+            key={pathData}
+            d={pathData}
+            fill="none"
+            stroke="black"
+            strokeWidth={2.5}
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 0.6, ease: 'easeInOut' }}
+          />
+        );
+      }
+      return { default: HeroConnectorPath };
+    }),
+  { ssr: false },
+);
 
 export interface HeroSectionProps {
   leftContent?: {
@@ -86,7 +109,7 @@ function SmoothTypewriter({
 }
 
 export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
-  const isMobile = useIsMobileResolved();
+  const isMobile = useIsMobile();
   const [selectedBusiness, setSelectedBusiness] = useState(rightContent?.listOfWork?.[0] || '');
   const [isCalling, setIsCalling] = useState(false);
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
@@ -191,18 +214,17 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
       {/* Decorative elements */}
       <div className="absolute inset-0 h-full w-full vertical-lines" />
 
-      <div
-        className="absolute top-[57%] lg:top-[50%] left-1/2 w-[min(690px,100vw)] aspect-square -translate-x-1/2 -translate-y-1/2 scale-95 pointer-events-none hidden md:block"
-        aria-hidden
-      >
-        <div className="absolute inset-0 rounded-full opacity-50 bg-[radial-gradient(circle_at_50%_50%,rgba(103,121,255,0.4)_0%,rgba(53,181,245,0.12)_50%,transparent_72%)]" />
-      </div>
-      <div
-        className="absolute top-[26%] left-1/2 w-[min(390px,95vw)] aspect-square -translate-x-1/2 -translate-y-1/2 scale-105 pointer-events-none md:hidden"
-        aria-hidden
-      >
-        <div className="absolute inset-0 rounded-full opacity-45 bg-[radial-gradient(circle_at_50%_50%,rgba(103,121,255,0.35)_0%,rgba(46,255,234,0.1)_55%,transparent_70%)]" />
-      </div>
+      {!isMobile && (
+        <div className="absolute top-[57%] lg:top-[50%] 2xl:top-[50%] left-1/2 w-[690px] h-[690px] -translate-x-1/2 -translate-y-1/2 scale-95 hidden md:block">
+          <SplineScene config={SPLINE_SCENES.heroPattern} />
+        </div>
+      )}
+
+      {isMobile && (
+        <div className="absolute top-[26%] left-1/2 w-[390px] h-[390px] sm:w-[600px] sm:h-[600px] -translate-x-1/2 -translate-y-1/2 scale-105 block md:hidden">
+          <SplineScene config={SPLINE_SCENES.heroPatternMobile} />
+        </div>
+      )}
 
       <div className="absolute inset-0 h-full w-full overflow-hidden pointer-events-none">
         <div
@@ -335,7 +357,7 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
             {/* SVG Connector */}
             {showConnector && pathData && isAnimationComplete && (
               <svg className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none overflow-visible">
-                <path d={pathData} fill="none" stroke="black" strokeWidth={2.5} />
+                <HeroConnectorPath pathData={pathData} />
               </svg>
             )}
 
@@ -347,7 +369,7 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
               }
             >
               <div className="relative w-full h-full rounded-full overflow-hidden md:top-5 ">
-                <SplineScene config={SPLINE_SCENES.hero} priority deferMs={1500} />
+                <SplineScene config={SPLINE_SCENES.hero} />
 
                 {isCalling ? (
                   <button
