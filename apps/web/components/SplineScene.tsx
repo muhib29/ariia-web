@@ -192,20 +192,7 @@ export default function SplineScene({
         </div>
       )}
       {SplineComponent && !error && (
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            background: 'transparent',
-            ...(config.disableInteractions && {
-              pointerEvents: 'none',
-              touchAction: 'none',
-              userSelect: 'none',
-            }),
-          }}
-        >
+        <div style={splineStyle}>
           <SplineComponent scene={config.url} onLoad={handleLoad} onError={handleError} />
         </div>
       )}

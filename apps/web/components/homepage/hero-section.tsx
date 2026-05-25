@@ -214,16 +214,24 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
       {/* Decorative elements */}
       <div className="absolute inset-0 h-full w-full vertical-lines" />
 
-      {!isMobile && (
-        <div className="absolute top-[57%] lg:top-[50%] 2xl:top-[50%] left-1/2 w-[690px] h-[690px] -translate-x-1/2 -translate-y-1/2 scale-95 hidden md:block">
-          <SplineScene config={SPLINE_SCENES.heroPattern} />
+      {isMobile === undefined ? (
+        <div className="absolute top-[57%] lg:top-[50%] 2xl:top-[50%] left-1/2 w-[690px] h-[690px] -translate-x-1/2 -translate-y-1/2 scale-95">
+          {/* Neutral placeholder during hydration — same dimensions as desktop wrapper */}
         </div>
-      )}
+      ) : (
+        <>
+          {!isMobile && (
+            <div className="absolute top-[57%] lg:top-[50%] 2xl:top-[50%] left-1/2 w-[690px] h-[690px] -translate-x-1/2 -translate-y-1/2 scale-95 hidden md:block">
+              <SplineScene config={SPLINE_SCENES.heroPattern} />
+            </div>
+          )}
 
-      {isMobile && (
-        <div className="absolute top-[26%] left-1/2 w-[390px] h-[390px] sm:w-[600px] sm:h-[600px] -translate-x-1/2 -translate-y-1/2 scale-105 block md:hidden">
-          <SplineScene config={SPLINE_SCENES.heroPatternMobile} />
-        </div>
+          {isMobile && (
+            <div className="absolute top-[26%] left-1/2 w-[390px] h-[390px] sm:w-[600px] sm:h-[600px] -translate-x-1/2 -translate-y-1/2 scale-105 block md:hidden">
+              <SplineScene config={SPLINE_SCENES.heroPatternMobile} />
+            </div>
+          )}
+        </>
       )}
 
       <div className="absolute inset-0 h-full w-full overflow-hidden pointer-events-none">
