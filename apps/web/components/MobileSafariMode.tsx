@@ -14,5 +14,5 @@ export function MobileSafariMode({ children }: { children: React.ReactNode }) {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  return <div key={pathname}>{children}</div>;
+  return <div>{children}</div>;
 }
