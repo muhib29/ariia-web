@@ -254,14 +254,12 @@ function HeaderContent({
         <nav className="hidden md:flex items-center space-x-6">
           <Link
             href="/features"
-            prefetch={false}
             className="text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors hover:bg-[#EEFBFF] rounded-full px-4 py-2 mr-0"
           >
             Features
           </Link>
           <Link
             href="/pricing"
-            prefetch={false}
             className="text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors hover:bg-[#EEFBFF] rounded-full px-4 py-2 mr-3"
           >
             Pricing
@@ -283,11 +281,10 @@ function HeaderContent({
             {hoveredDropdown === 'company' && (
               <div className="absolute top-full left-0 mt-5 w-96 p-2 rounded-xl shadow-lg border border-gray-100 bg-white space-y-1 z-50 animate-fade-in">
                 {COMPANY_MENU.map((item) => (
-                  <a
+                  <Link
                     key={item.href}
                     href={item.href}
                     className={menuItemClasses(item.href)}
-                    //@ts-ignore
                     onClick={() => {
                       setActivePath(item.href);
                       setHoveredDropdown(null);
@@ -298,7 +295,7 @@ function HeaderContent({
                       <p className="text-sm font-medium text-gray-900">{item.title}</p>
                       <p className="text-xs text-gray-600 leading-tight">{item.description}</p>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}
@@ -320,11 +317,10 @@ function HeaderContent({
             {hoveredDropdown === 'resources' && (
               <div className="absolute top-full left-0 mt-5 w-96 p-2 rounded-xl shadow-lg border border-gray-100 bg-white space-y-1 z-50 animate-fade-in">
                 {RESOURCES_MENU.map((item) => (
-                  <a
+                  <Link
                     key={item.href}
                     href={item.href}
                     className={menuItemClasses(item.href)}
-                    //@ts-ignore
                     onClick={() => {
                       setActivePath(item.href);
                       setHoveredDropdown(null);
@@ -335,7 +331,7 @@ function HeaderContent({
                       <p className="text-sm font-medium text-gray-900">{item.title}</p>
                       <p className="text-xs text-gray-600 leading-tight">{item.description}</p>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}
@@ -408,19 +404,14 @@ function HeaderContent({
                   <div className="bg-white/45 rounded-full px-3 py-1 border border-white/45 flex items-center gap-2 pointer-events-none">
                     <AriiaSvgMark className="w-16 h-7" />
                   </div>
-                  <SheetClose asChild>
-                    <button
-                      type="button"
-                      aria-label="Close menu"
-                      className="relative z-[3] flex items-center justify-center size-10 opacity-90 rounded-full bg-white/45 shadow-md border border-white/45 touch-manipulation cursor-pointer"
-                      onPointerDown={(e) => {
-                        e.preventDefault();
-                        setMobileMenuOpen(false);
-                      }}
-                    >
-                      <X className="h-4 w-4 text-gray-700 pointer-events-none" />
-                    </button>
-                  </SheetClose>
+                  <button
+                    type="button"
+                    aria-label="Close menu"
+                    className="relative z-[3] flex items-center justify-center size-10 opacity-90 rounded-full bg-white/45 shadow-md border border-white/45 touch-manipulation cursor-pointer"
+                    onClick={() => handleMobileMenuOpenChange(false)}
+                  >
+                    <X className="h-4 w-4 text-gray-700 pointer-events-none" />
+                  </button>
                 </div>
 
                 <nav className="pb-6 relative z-[1]">
