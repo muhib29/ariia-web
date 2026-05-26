@@ -588,3 +588,15 @@ section {
     transform: none;
   }
 }
+
+/* iPhone X white screen fix: prevent GPU memory drops on blur layers during scroll */
+@media (max-width: 767px) {
+  .blur-sm, .blur, .blur-md, .blur-lg,
+  .blur-xl, .blur-2xl, .blur-3xl, [class*="blur-"] {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+}

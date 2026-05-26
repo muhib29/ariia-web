@@ -4,7 +4,7 @@ import Lenis from 'lenis';
 import { usePathname } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
-import { registerLenis, unregisterLenis } from '@/lib/lenis';
+import { getLenis, registerLenis, unregisterLenis } from '@/lib/lenis';
 import { shouldUseSmoothScroll } from '@/lib/device-capabilities';
 
 export function LenisProvider({ children }: { children: ReactNode }) {
@@ -37,9 +37,15 @@ export function LenisProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  // Reset Lenis on route change
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.hash) return;
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    const lenis = getLenis();
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    }
+    if (typeof window !== 'undefined' && !window.location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }
   }, [pathname]);
 
   return <>{children}</>;
