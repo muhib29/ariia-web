@@ -393,6 +393,7 @@ function HeaderContent({
               showCloseButton={false}
               className="p-0 bg-transparent rounded-none border-0 shadow-none z-[200] pointer-events-auto data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top"
               onOpenAutoFocus={(e) => e.preventDefault()}
+              onCloseAutoFocus={(e) => e.preventDefault()}
             >
               <DialogTitle>
                 <span className="sr-only">Mobile Navigation Menu</span>
@@ -420,7 +421,7 @@ function HeaderContent({
                     <Link
                       key={item.href}
                       href={item.href}
-                      prefetch={false}
+                      prefetch={true}
                       className="flex items-center gap-2 px-4 border-b border-[#93d8fa4c] py-3 min-h-[44px] text-gray-700 font-bold hover:bg-gray-100 transition-colors touch-manipulation relative z-[1]"
                       onClick={() => setMobileMenuOpen(false)}
                     >
@@ -459,7 +460,7 @@ function HeaderContent({
                             <Link
                               key={link.href}
                               href={link.href}
-                              prefetch={false}
+                              prefetch={true}
                               className={cn(
                                 'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]',
                               )}
@@ -507,7 +508,7 @@ function HeaderContent({
                             <Link
                               key={link.href}
                               href={link.href}
-                              prefetch={false}
+                              prefetch={true}
                               className={cn(
                                 'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]',
                               )} // @ts-ignore
@@ -529,7 +530,7 @@ function HeaderContent({
                   <div className="w-full bg-white/45 backdrop-blur-xl rounded-full p-[5px] shadow-[0_14px_36px_rgba(15,23,42,0.14)] flex items-center justify-between gap-2 border border-white/45">
                     <Link
                       href="/login"
-                      prefetch={false}
+                      prefetch={true}
                       className="flex-1 text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors px-3 py-3 min-h-[44px] rounded-full text-center bg-transparent touch-manipulation flex items-center justify-center"
                       onClick={() => setMobileMenuOpen(false)}
                     >
@@ -539,7 +540,7 @@ function HeaderContent({
                       asChild
                       className="flex-1 bg-gray-900/95 hover:bg-gray-800/90 text-white font-medium text-sm mx-0 px-4 h-[32px] rounded-full"
                     >
-                      <Link href="/trial" prefetch={false} onClick={() => setMobileMenuOpen(false)}>
+                      <Link href="/trial" prefetch={true} onClick={() => setMobileMenuOpen(false)}>
                         1-Month Free Trial
                       </Link>
                     </Button>

@@ -12,7 +12,7 @@ export function HeroLogo({
   className = '',
   width = 149,
   height = 143,
-  priority = false,
+  priority = true,
 }: HeroLogoProps) {
   return (
     <Image
