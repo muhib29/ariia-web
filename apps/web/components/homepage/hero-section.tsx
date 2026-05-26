@@ -268,7 +268,7 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
                 className="relative top-0 w-[90px] h-[110px] md:h-[150px] md:w-[143px] md:right-0 lg:right-16 xl:right-28 mb-4 md:mb-0"
                 delay={0}
               >
-                <HeroLogo className="object-contain max-w-[90px]  md:pb-2 md:max-w-full" />
+                <HeroLogo priority={true} className="object-contain max-w-[90px]  md:pb-2 md:max-w-full" />
               </FadeInWhenInView>
             </div>
 
@@ -386,6 +386,7 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
                     aria-label="Cancel Call"
                   >
                     <Image
+                      priority={true}
                       src="/images/Missed Outbound.svg"
                       alt="Cancel Call"
                       width={30}
