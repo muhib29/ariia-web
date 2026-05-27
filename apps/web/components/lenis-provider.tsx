@@ -13,6 +13,9 @@ export function LenisProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!shouldUseSmoothScroll()) return;
 
+    const isChromeIOS = /CriOS/i.test(navigator.userAgent);
+    if (isChromeIOS) return;
+
     const lenis = new Lenis({
       duration: 1.05,
       smoothWheel: true,
