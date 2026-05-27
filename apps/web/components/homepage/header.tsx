@@ -231,8 +231,8 @@ function HeaderContent({
     `flex items-start gap-3 p-3 rounded-lg transition-colors ${activePath === href ? 'bg-[#EEFBFF]' : ''
     } menu-item-hover`;
 
-  const bgClass = isSticky ? 'bg-white/40' : 'bg-white';
-  const stickyStyle = isSticky ? { WebkitBackdropFilter: 'blur(12px)' } : {};
+  const bgClass = isSticky ? 'bg-white/70' : 'bg-white';
+  const stickyStyle = {};
 
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
