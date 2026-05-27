@@ -424,6 +424,7 @@
 .homepage-header {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  transform: translateZ(0);
 }
 
 /* Custom gradient backgrounds */

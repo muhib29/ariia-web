@@ -396,7 +396,7 @@ function HeaderContent({
                 <span className="sr-only">Mobile Navigation Menu</span>
               </DialogTitle>
 
-              <div className="mx-2 mt-2 rounded-[18px] border border-white/40 bg-white/10 shadow-[0_14px_36px_rgba(15,23,42,0.12)] overflow-y-auto relative flex flex-col max-h-[calc(100dvh-1.5rem)] touch-manipulation isolate z-[1]">
+              <div className="mx-2 mt-2 rounded-[18px] border border-white/40 bg-white/15 shadow-[0_14px_36px_rgba(15,23,42,0.12)] overflow-y-auto relative flex flex-col max-h-[calc(100dvh-1.5rem)] touch-manipulation transform-gpu z-[1]">
                 <div className="sticky top-0 z-[2] flex items-center justify-between px-4 pt-3 pb-2 bg-transparent shrink-0">
                   {/* Top logo row */}
                   <div className="bg-white/45 rounded-full px-3 py-1 border border-white/45 flex items-center gap-2 pointer-events-none">
@@ -523,7 +523,7 @@ function HeaderContent({
 
                 {/* Bottom CTA bar (Log In + 1-Month Free Trial) */}
                 <div className="px-4 pb-6 pt-2 shrink-0 relative z-[1]">
-                  <div className="w-full bg-white/40 rounded-full p-[5px] shadow-[0_14px_36px_rgba(15,23,42,0.14)] flex items-center justify-between gap-2 border border-white/45">
+                  <div className="w-full bg-white/40 rounded-full p-[5px] shadow-[0_14px_36px_rgba(15,23,42,0.14)] flex items-center justify-between gap-2 border border-white/45 will-change-auto">
                     <Link
                       href="/login"
                       prefetch={false}
