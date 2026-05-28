@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preload" href="/images/headerlogo.webp" as="image" type="image/webp" />
         {strapiUrl ? (
           <>
-            <link rel="dns-prefetch" href={strapiUrl} />
+            <link rel="dns-prefetch" href={strapiUrl} />images/card-5-right.svg 
           </>
         ) : null}
       </head>
