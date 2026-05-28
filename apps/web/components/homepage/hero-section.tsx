@@ -63,7 +63,7 @@ function SmoothTypewriter({
   const safeWords =
     words && words.length > 0 ? words : ['AI Agents', 'Smart Assistants', 'Digital Co-Pilots'];
   const [wordIndex, setWordIndex] = useState(0);
-  const [displayText, setDisplayText] = useState('');
+  const [displayText, setDisplayText] = useState(() => (words && words.length > 0 ? words[0] : 'AI Agents'));
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
