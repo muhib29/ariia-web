@@ -6,7 +6,7 @@ export const revalidate = 60;
 
 export default async function BlogPage() {
   const res = await fetchAPI(allBlogsQuery);
-  // console.log("🚀 ~ BlogPage ~ res:", res);
+  // console.log("🚀 ~ BlogPage ~ res:", res);  checking
 
   const blogs =
     res?.data?.blogs?.map((blog: any) => {
