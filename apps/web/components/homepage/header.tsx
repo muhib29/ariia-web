@@ -399,7 +399,6 @@ function HeaderContent({
 
               <div
                 className="mx-2 mt-2 rounded-[18px] border border-white/40 bg-white/90 shadow-[0_14px_36px_rgba(15,23,42,0.12)] overflow-y-auto relative flex flex-col max-h-[calc(100dvh-1.5rem)] touch-manipulation transform-gpu z-[1]"
-                style={{ contain: 'strict' }}
               >
                 <div className="sticky top-0 z-[2] flex items-center justify-between px-4 pt-3 pb-2 bg-transparent shrink-0">
                   {/* Top logo row */}

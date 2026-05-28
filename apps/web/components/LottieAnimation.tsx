@@ -17,12 +17,6 @@ export type LottieAnimationProps = {
 
 const LottieAnimation = React.forwardRef<any, LottieAnimationProps>(
   ({ src, loop = true, autoplay = true, speed = 1, className, playWhenInView = true }, ref) => {
-    // On touch devices skip mounting Lottie entirely to avoid heavy rendering
-    // and dynamic imports during page navigation (iOS / WebKit mitigation).
-    if (typeof window !== 'undefined' && 'ontouchstart' in window) {
-      return null;
-    }
-
     const containerRef = useRef<HTMLDivElement>(null);
     const [inView, setInView] = useState(false);
     const [hasEnteredView, setHasEnteredView] = useState(!playWhenInView);
