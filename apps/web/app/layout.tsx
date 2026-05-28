@@ -30,7 +30,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {strapiUrl ? (
           <>
             <link rel="dns-prefetch" href={strapiUrl} />
-            <link rel="preconnect" href={strapiUrl} crossOrigin="anonymous" />
           </>
         ) : null}
       </head>

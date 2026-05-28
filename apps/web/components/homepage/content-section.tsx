@@ -134,6 +134,7 @@ export function ContentSection() {
                       alt={card.title}
                       width={600}
                       height={600}
+                      sizes="(max-width: 640px) 95vw, (max-width: 1024px) 600px, 720px"
                       className={`relative z-10 w-full md:w-auto md:max-w-none md:h-auto object-contain ${
                         card.num === '3' || card.num === '4'
                           ? 'max-w-[320px] h-[170px]'
@@ -197,6 +198,7 @@ export function ContentSection() {
                       alt="Customer Support Mobile"
                       width={188}
                       height={100}
+                      sizes="(max-width: 1024px) 150px, 188px"
                       className="w-[150px] h-[140px] lg:w-[187.56px] lg:h-[382px] object-contain object-top hidden md:block"
                     />
                     <Image
@@ -204,6 +206,7 @@ export function ContentSection() {
                       alt="Customer Support Mobile"
                       width={188}
                       height={100}
+                      sizes="(max-width: 1024px) 150px, 188px"
                       className="w-[150px] h-[140px] lg:w-[187.56px] lg:h-[382px] object-contain object-top block md:hidden"
                     />
                   </div>
@@ -214,6 +217,7 @@ export function ContentSection() {
                       alt="Customer Support Networking"
                       width={550}
                       height={120}
+                      sizes="(max-width: 640px) 280px, (max-width: 1024px) 500px, 550px"
                       className="relative w-[280px] h-auto bottom-5 left-0 lg:left-4 lg:w-[549.98px] lg:h-[277.98px] max-w-none object-contain lg:object-right"
                     />
                   </div>
