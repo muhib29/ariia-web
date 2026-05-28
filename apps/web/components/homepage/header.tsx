@@ -359,7 +359,7 @@ function HeaderContent({
           </Link>
         </Button>
         <div className="block md:hidden relative z-[60]">
-          <Sheet open={mobileMenuOpen} onOpenChange={handleMobileMenuOpenChange}>
+          <Sheet open={mobileMenuOpen} onOpenChange={handleMobileMenuOpenChange} modal={false}>
             <SheetTrigger asChild>
               <Button
                 type="button"

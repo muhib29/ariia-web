@@ -61,7 +61,7 @@ function SheetContent({
       <SheetPrimitive.Content
         data-slot="sheet-content"
         className={cn(
-          'bg-background fixed z-50 flex flex-col gap-4 shadow-lg transition ease-in-out touch-manipulation',
+          'bg-background fixed z-50 flex flex-col gap-4 shadow-lg touch-manipulation',
           side === 'right' &&
             'inset-y-0 right-0 h-full w-3/4 rounded-l-xl border-l sm:max-w-sm',
           side === 'left' &&
