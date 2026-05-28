@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Check, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import { GradientHeader } from './GradientHeader';
 import { FadeInWhenInView } from './hero-section';
 
@@ -306,7 +306,7 @@ export function PricingSection({ pricing }: { pricing: PricingData }) {
                         </span>
                       </p>
                     ) : (
-                      <ReactMarkdown>{payAsYouGoDescription}</ReactMarkdown>
+                      <MarkdownRenderer>{payAsYouGoDescription}</MarkdownRenderer>
                     )
                   ) : (
                     <p>
@@ -390,7 +390,7 @@ export function PricingSection({ pricing }: { pricing: PricingData }) {
             </h1>
             {pricing?.subscriptionSection?.header?.description && (
               <div className="mt-2 text-gray-600">
-                <ReactMarkdown>{pricing.subscriptionSection.header.description}</ReactMarkdown>
+                <MarkdownRenderer>{pricing.subscriptionSection.header.description}</MarkdownRenderer>
               </div>
             )}
           </div>
@@ -787,7 +787,7 @@ export function PricingSection({ pricing }: { pricing: PricingData }) {
               </h1>
               {pricing.pricingTable.header?.description && (
                 <div className="text-gray-600 text-center mt-2 max-w-2xl">
-                  <ReactMarkdown>{pricing.pricingTable.header.description}</ReactMarkdown>
+                  <MarkdownRenderer>{pricing.pricingTable.header.description}</MarkdownRenderer>
                 </div>
               )}
             </div>

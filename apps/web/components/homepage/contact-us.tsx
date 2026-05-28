@@ -2,7 +2,7 @@
 import React from 'react';
 import { Header } from './header';
 import { NewsletterFooter } from './footer';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import { SectionHeader } from '../SectionHeader';
 import Image from 'next/image';
 import { cn } from '@workspace/ui/lib/utils';
@@ -104,7 +104,7 @@ function ContactCardComponent({
       <div className="relative h-full flex flex-col z-10">
         <div className="flex flex-col gap-8 md:gap-5">
           <h3 className="text-lg md:text-[20px] font-bold text-gray-900 pr-0 md:pr-8 leading-snug">
-            <ReactMarkdown>{title}</ReactMarkdown>
+            <MarkdownRenderer>{title}</MarkdownRenderer>
           </h3>
           <a
             href={`mailto:${email}`}

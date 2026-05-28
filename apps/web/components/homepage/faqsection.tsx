@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import { cn } from '@workspace/ui/lib/utils';
 import { SectionHeader } from '../SectionHeader';
 
@@ -100,22 +100,22 @@ export function FAQSection({ header, questions }: FAQSectionProps) {
                       >
                         <div className="overflow-hidden min-h-0">
                           <div className="px-6 pb-5 text-sm text-[#475467] leading-[24px] whitespace-normal">
-                            <ReactMarkdown
+                            <MarkdownRenderer
                               components={{
-                                p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
-                                ul: ({ node, ...props }) => (
+                                p: ({ node, ...props }: { node?: any; [key: string]: any }) => <p className="mb-2 last:mb-0" {...props} />,
+                                ul: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                                   <ul
                                     className="list-disc list-outside pl-5 space-y-1 mb-4"
                                     {...props}
                                   />
                                 ),
-                                ol: ({ node, ...props }) => (
+                                ol: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                                   <ol
                                     className="list-decimal list-outside pl-5 space-y-1 mb-4"
                                     {...props}
                                   />
                                 ),
-                                a: ({ node, ...props }) => (
+                                a: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                                   <a
                                     className="text-[#3B6BFF] underline hover:no-underline"
                                     {...props}
@@ -124,7 +124,7 @@ export function FAQSection({ header, questions }: FAQSectionProps) {
                               }}
                             >
                               {faq.content?.replace(/\\n/g, '\n') || ''}
-                            </ReactMarkdown>
+                            </MarkdownRenderer>
                           </div>
                         </div>
                       </div>

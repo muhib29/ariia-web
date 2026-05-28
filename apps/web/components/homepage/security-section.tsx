@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { DeferredImage } from '@/components/DeferredImage';
 import { CheckCircle } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import { FadeInWhenInView } from '@/components/animations/FadeInWhenInView';
 
 export interface SecuritySectionProps {
@@ -44,10 +44,10 @@ export function SecuritySection({ header, imageWithContent }: SecuritySectionPro
               {header?.title || 'Security at the Core of Our Platform'}
             </h2>
             <div className="max-w-4xl mx-auto text-white/80 text-sm md:text-base">
-              <ReactMarkdown>
+              <MarkdownRenderer>
                 {header?.description ||
                   'Safeguarding your data is central to our platform. We use enterprise-grade security architecture that meets U.S. standards, ensuring your data is protected at every stage.'}
-              </ReactMarkdown>
+              </MarkdownRenderer>
             </div>
           </div>
         </FadeInWhenInView>
@@ -68,7 +68,7 @@ export function SecuritySection({ header, imageWithContent }: SecuritySectionPro
                       />
                     </div>
                     <div className="flex-1 flex flex-col">
-                      <ReactMarkdown>{card.description}</ReactMarkdown>
+                      <MarkdownRenderer>{card.description}</MarkdownRenderer>
                     </div>
                   </div>
                 </FadeInWhenInView>

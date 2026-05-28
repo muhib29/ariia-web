@@ -8,7 +8,7 @@ import { NewsletterFooter } from './footer';
 import React, { useEffect, useMemo, useState } from 'react';
 import { ShareModal } from './ShareModal';
 import { FadeInWhenInView } from './hero-section';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import slugify from 'slugify';
 import { lenisScrollTo } from '@/lib/lenis';
 import { SectionHeader } from '../SectionHeader';
@@ -342,9 +342,9 @@ export function BlogDetail({ blog, otherBlogs = [] }: { blog: any; otherBlogs?: 
 
                     return (
                       <FadeInWhenInView delay={50}>
-                        <ReactMarkdown
+                        <MarkdownRenderer
                           components={{
-                            h2: ({ node, children, ...props }) => {
+                            h2: ({ children, ...props }: { children: React.ReactNode; [key: string]: any }) => {
                               const text = cleanHeadingText(getNodeText(children));
                               const id = slugify(text, { lower: true, strict: true });
                               return (
@@ -357,7 +357,7 @@ export function BlogDetail({ blog, otherBlogs = [] }: { blog: any; otherBlogs?: 
                                 </h2>
                               );
                             },
-                            h3: ({ node, children, ...props }) => {
+                            h3: ({ children, ...props }: { children: React.ReactNode; [key: string]: any }) => {
                               const text = cleanHeadingText(getNodeText(children));
                               const id = slugify(text, { lower: true, strict: true });
                               return (
@@ -370,7 +370,7 @@ export function BlogDetail({ blog, otherBlogs = [] }: { blog: any; otherBlogs?: 
                                 </h3>
                               );
                             },
-                            p: ({ node, children, ...props }) => {
+                            p: ({ children, ...props }: { children: React.ReactNode; [key: string]: any }) => {
                               const childArray = React.Children.toArray(children).filter(
                                 (child) => {
                                   return !(typeof child === 'string' && child.trim() === '');
@@ -420,7 +420,7 @@ export function BlogDetail({ blog, otherBlogs = [] }: { blog: any; otherBlogs?: 
                           }}
                         >
                           {markdownText}
-                        </ReactMarkdown>
+                        </MarkdownRenderer>
                       </FadeInWhenInView>
                     );
                   })()}

@@ -5,7 +5,7 @@ import { NewsletterFooter } from '../homepage/footer';
 import { Share2 } from 'lucide-react';
 import { ShareModal } from '../homepage/ShareModal';
 import { useState, FormEvent } from 'react';
-import ReactMarkdown, { type Components } from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import { LocationIcon } from '../icons/LocationIcon';
 import { WorkIcon } from '../icons/WorkIcon';
 import { ChartCircleIcon } from '../icons/ChartCircleIcon';
@@ -16,10 +16,9 @@ import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { SectionHeader } from '../SectionHeader';
 import { SPLINE_SCENES } from '@/config/spline-scenes';
-
+import { ComponentPropsWithoutRef } from 'react';
 const SplineScene = dynamic(() => import('../SplineScene'), { ssr: false });
 import { FadeInWhenInView } from '../animations/FadeInWhenInView';
-import remarkBreaks from 'remark-breaks';
 
 // Define types for the career data
 interface CareerJobInfo {
@@ -349,16 +348,16 @@ export function CareerDetailClient({ careerData }: { careerData: CareerData }) {
   const formFieldClassName =
     'career-glow-field w-full text-black rounded-xl border border-gray-200 bg-white px-4 py-3 placeholder:text-sm placeholder:text-gray-300 focus:outline-none transition-all duration-200';
 
-  const markdownComponents: Components = {
-    p: (props) => <p className="mb-4 leading-relaxed last:mb-0" {...props} />,
-    h2: (props) => <h2 className="text-2xl font-bold text-gray-900 mt-4 mb-3" {...props} />,
-    h3: (props) => <h3 className="text-xl font-bold text-gray-900 mt-4 mb-3" {...props} />,
-    h4: (props) => <h4 className="text-lg font-bold text-gray-900 mt-4 mb-3" {...props} />,
-    ul: (props) => <ul className="list-disc pl-6 space-y-2 mb-4" {...props} />,
-    ol: (props) => <ol className="list-decimal pl-6 space-y-2 mb-4" {...props} />,
-    li: (props) => <li className="leading-relaxed" {...props} />,
-    a: (props) => <a className="text-blue-700 underline underline-offset-2" {...props} />,
-    blockquote: (props) => (
+  const markdownComponents = {
+    p: (props: any) => <p className="mb-4 leading-relaxed last:mb-0" {...props} />,
+    h2: (props: any) => <h2 className="text-2xl font-bold text-gray-900 mt-4 mb-3" {...props} />,
+    h3: (props: any) => <h3 className="text-xl font-bold text-gray-900 mt-4 mb-3" {...props} />,
+    h4: (props: any) => <h4 className="text-lg font-bold text-gray-900 mt-4 mb-3" {...props} />,
+    ul: (props: any) => <ul className="list-disc pl-6 space-y-2 mb-4" {...props} />,
+    ol: (props: any) => <ol className="list-decimal pl-6 space-y-2 mb-4" {...props} />,
+    li: (props: any) => <li className="leading-relaxed" {...props} />,
+    a: (props: any) => <a className="text-blue-700 underline underline-offset-2" {...props} />,
+    blockquote: (props: any) => (
       <blockquote
         className="border-l-4 border-blue-200 pl-4 italic text-gray-600 my-4"
         {...props}
@@ -640,23 +639,23 @@ export function CareerDetailClient({ careerData }: { careerData: CareerData }) {
                     {jobData.careerCard?.description && (
                       <div className="mb-8">
                         <div className="text-gray-700 text-base leading-relaxed">
-                          <ReactMarkdown
-                            remarkPlugins={[remarkBreaks]}
+                          <MarkdownRenderer
+                            withBreaks
                             components={markdownComponents}
                           >
                             {careerDescription}
-                          </ReactMarkdown>
+                          </MarkdownRenderer>
                         </div>
                       </div>
                     )}
                     {jobData.careerCard?.jobDescription && (
                       <div className="mb-8 text-gray-700 text-base leading-relaxed">
-                        <ReactMarkdown
-                          remarkPlugins={[remarkBreaks]}
+                        <MarkdownRenderer
+                          withBreaks
                           components={markdownComponents}
                         >
                           {careerJobDescription}
-                        </ReactMarkdown>
+                        </MarkdownRenderer>
                       </div>
                     )}
                   </div>
@@ -731,28 +730,31 @@ export function CareerDetailClient({ careerData }: { careerData: CareerData }) {
                     <div className="flex-shrink-0 w-full md:hidden flex items-center justify-center">
                       <SplineScene config={SPLINE_SCENES.careerRoles} />
                     </div>
-                    {jobData.whyJoinUs?.description && (
-                      <div className="text-white leading-relaxed px-2">
-                        <ReactMarkdown
-                          remarkPlugins={[remarkBreaks]}
-                          components={{
-                            ...markdownComponents,
-                            p: (props) => <p className="mb-4 text-white/90" {...props} />,
-                            ul: (props) => <ul className="space-y-5 mb-4" {...props} />,
-                            li: (props) => (
-                              <li className="flex items-start gap-3 leading-relaxed" {...props}>
-                                <span className="mt-1">
-                                  <span className="block w-2 h-2 rounded-full bg-cyan-400"></span>
-                                </span>
-                                <span>{props.children}</span>
-                              </li>
-                            ),
-                          }}
-                        >
-                          {whyJoinUsDescription}
-                        </ReactMarkdown>
-                      </div>
-                    )}
+                  {jobData.whyJoinUs?.description && (
+  <div className="text-white leading-relaxed px-2">
+    <MarkdownRenderer
+      components={{
+        ...markdownComponents,
+        p: (props: ComponentPropsWithoutRef<'p'>) => (
+          <p className="mb-4 text-white/90" {...props} />
+        ),
+        ul: (props: ComponentPropsWithoutRef<'ul'>) => (
+          <ul className="space-y-5 mb-4" {...props} />
+        ),
+        li: (props: ComponentPropsWithoutRef<'li'>) => (
+          <li className="flex items-start gap-3 leading-relaxed" {...props}>
+            <span className="mt-1">
+              <span className="block w-2 h-2 rounded-full bg-cyan-400"></span>
+            </span>
+            <span>{props.children}</span>
+          </li>
+        ),
+      }}
+    >
+      {whyJoinUsDescription}
+    </MarkdownRenderer>
+  </div>
+)}
                   </div>
                   <div className="relative z-10 hidden md:flex flex-shrink-0 w-full max-w-[300px] items-center justify-center md:mr-5">
                     <SplineScene config={SPLINE_SCENES.careerRoles} />

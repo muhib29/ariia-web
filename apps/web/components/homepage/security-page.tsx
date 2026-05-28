@@ -2,7 +2,7 @@
 import React from 'react';
 import { Header } from './header';
 import { NewsletterFooter } from './footer';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import Image from 'next/image';
 import { CheckCircle } from 'lucide-react';
 import { GradientHeader } from './GradientHeader';
@@ -44,7 +44,7 @@ export function SecurityPageSection({ security }: SecurityPageSectionProps) {
           </h1>
           {header?.description && (
             <div className="max-w-2xl mx-auto text-gray-600 text-sm md:text-base mt-4">
-              <ReactMarkdown>{header.description}</ReactMarkdown>
+              <MarkdownRenderer>{header.description}</MarkdownRenderer>
             </div>
           )}
         </div> */}
@@ -75,7 +75,7 @@ export function SecurityPageSection({ security }: SecurityPageSectionProps) {
                     />
                   )}
                 </div>
-                <ReactMarkdown>{card.description}</ReactMarkdown>
+                <MarkdownRenderer>{card.description}</MarkdownRenderer>
               </div>
             ))}
           </div>

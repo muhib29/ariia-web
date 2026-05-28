@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import Image from 'next/image';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import { PlayIcon } from '../icons/PlayIcon';
 import { MuteIcon } from '../icons/MuteIcon';
 import { SpeakerIcon } from '../icons/SpeakerIcon';
@@ -175,7 +175,7 @@ export function UseCasesSection({ header, audioWithContent }: UseCasesSectionPro
                         {card.title}
                       </h3>
                       <div className="text-gray-600 text-sm leading-relaxed flex-1 min-h-0">
-                        <ReactMarkdown>{card.description}</ReactMarkdown>
+                        <MarkdownRenderer>{card.description}</MarkdownRenderer>
                       </div>
                     </div>
                   </div>

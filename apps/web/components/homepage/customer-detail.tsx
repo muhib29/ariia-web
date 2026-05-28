@@ -7,7 +7,7 @@ import { NewsletterFooter } from './footer';
 import { Share2, Briefcase, Users, MapPin } from 'lucide-react';
 import React, { useState } from 'react';
 import { ShareModal } from './ShareModal';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import { SectionHeader } from '../SectionHeader';
 import { FadeInWhenInView } from '../animations/FadeInWhenInView';
 
@@ -253,36 +253,36 @@ export function CustomerDetail({ customer }: { customer: CustomerDetailData }) {
                       </h2>
                     )}
                     {block.text && (
-                      <ReactMarkdown
+                      <MarkdownRenderer
                         components={{
-                          p: ({ node, ...props }) => (
+                          p: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                             <p
                               className="text-gray-700 text-base leading-relaxed mb-4"
                               {...props}
                             />
                           ),
-                          h2: ({ node, ...props }) => (
+                          h2: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                             <h2 className="text-xl font-bold text-gray-900 mt-6 mb-2" {...props} />
                           ),
-                          h3: ({ node, ...props }) => (
+                          h3: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                             <h3
                               className="text-lg font-semibold text-gray-900 mt-4 mb-2"
                               {...props}
                             />
                           ),
-                          ul: ({ node, ...props }) => (
+                          ul: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                             <ul className="list-disc pl-6 space-y-2 mb-4" {...props} />
                           ),
-                          li: ({ node, ...props }) => (
+                          li: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                             <li className="text-gray-700 text-base" {...props} />
                           ),
-                          strong: ({ node, ...props }) => (
+                          strong: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                             <strong className="font-semibold text-gray-900" {...props} />
                           ),
                         }}
                       >
                         {block.text}
-                      </ReactMarkdown>
+                      </MarkdownRenderer>
                     )}
                   </div>
                 ))}

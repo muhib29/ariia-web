@@ -4,7 +4,7 @@ import { NewsletterFooter } from './footer';
 import Image from 'next/image';
 import { MapPin, Briefcase, PieChart, Gift, DollarSign } from 'lucide-react';
 import Link from 'next/link';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import React, { useEffect } from 'react';
 import { SectionHeader } from '../SectionHeader';
 import dynamic from 'next/dynamic';
@@ -93,7 +93,7 @@ function JobCard({ title, slug, description, jobInfo }: JobCardProps) {
             {title}
           </h3>
           <div className="text-gray-700 text-sm md:text-base">
-            <ReactMarkdown>{description}</ReactMarkdown>
+            <MarkdownRenderer>{description}</MarkdownRenderer>
           </div>
         </div>
         {detailsBox}

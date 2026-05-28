@@ -4,7 +4,7 @@
 import Image from 'next/image';
 import { Header } from './header';
 import { NewsletterFooter } from './footer';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import React from 'react';
 import { SectionHeader } from '../SectionHeader';
 import LottieAnimation from '../LottieAnimation';
@@ -89,22 +89,22 @@ export default function StoryBehindAriia({ about }: { about: AboutData }) {
                 <h2 className="text-2xl font-bold text-gray-900 mb-2 md:mb-4">{section.title}</h2>
               )}
 
-              <ReactMarkdown
+              <MarkdownRenderer
                 components={{
-                  p: ({ node, ...props }) => (
+                  p: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                     <p
                       className="text-gray-700 text-sm md:text-base leading-relaxed mb-2 md:mb-4"
                       {...props}
                     />
                   ),
-                  ul: ({ node, ...props }) => (
+                  ul: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                     <ul className="list-disc pl-6 text-gray-700 mb-4" {...props} />
                   ),
-                  li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                  li: ({ node, ...props }: { node?: any; [key: string]: any }) => <li className="mb-1" {...props} />,
                 }}
               >
                 {section.content}
-              </ReactMarkdown>
+              </MarkdownRenderer>
 
               {/* Featured Image Full Width with Grid Background */}
               <div className="relative w-full max-w-6xl aspect-[1.4] md:aspect-video mt-6 flex items-center justify-center rounded-3xl overflow-hidden">
@@ -215,9 +215,9 @@ export default function StoryBehindAriia({ about }: { about: AboutData }) {
               return (
                 <div>
                   {/* Paragraph 1 */}
-                  <ReactMarkdown
+                  <MarkdownRenderer
                     components={{
-                      p: ({ node, ...props }) => (
+                      p: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                         <p
                           className="text-gray-700 text-sm md:text-base leading-relaxed mb-2 md:mb-4"
                           {...props}
@@ -226,15 +226,15 @@ export default function StoryBehindAriia({ about }: { about: AboutData }) {
                     }}
                   >
                     {para1}
-                  </ReactMarkdown>
+                  </MarkdownRenderer>
 
                   {/* Desktop Globe (Floats right starting after p1) */}
                   {globeComponent(false)}
 
                   {/* Paragraph 2 */}
-                  <ReactMarkdown
+                  <MarkdownRenderer
                     components={{
-                      p: ({ node, ...props }) => (
+                      p: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                         <p
                           className="text-gray-700 text-sm md:text-base leading-relaxed mb-2 md:mb-4 "
                           {...props}
@@ -243,15 +243,15 @@ export default function StoryBehindAriia({ about }: { about: AboutData }) {
                     }}
                   >
                     {para2}
-                  </ReactMarkdown>
+                  </MarkdownRenderer>
 
                   {/* Mobile Globe (Centered after p2) */}
                   {globeComponent(true)}
 
                   {/* Remaining Content */}
-                  <ReactMarkdown
+                  <MarkdownRenderer
                     components={{
-                      p: ({ node, ...props }) => (
+                      p: ({ node, ...props }: { node?: any; [key: string]: any }) => (
                         <p
                           className="text-gray-700 text-sm md:text-base leading-relaxed mb-2 md:mb-4"
                           {...props}
@@ -260,7 +260,7 @@ export default function StoryBehindAriia({ about }: { about: AboutData }) {
                     }}
                   >
                     {rest}
-                  </ReactMarkdown>
+                  </MarkdownRenderer>
 
                   <div className="clear-both" />
                 </div>

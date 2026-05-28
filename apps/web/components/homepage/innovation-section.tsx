@@ -1,6 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
-import ReactMarkdown from 'react-markdown';
+import MarkdownRenderer from '../markdown-renderer';
 import { SectionHeader } from '../SectionHeader';
 import { SPLINE_SCENES } from '@/config/spline-scenes';
 
@@ -89,7 +89,7 @@ export function InnovationSection({ header, image: _image }: InnovationSectionPr
             {description && (
               <FadeInWhenInView duration={0.5} yOffset={10}>
                 <div className="innovation-description text-[#101828] text-sm md:text-[16px] md:leading-[normal] mb-6 whitespace-normal">
-                  <ReactMarkdown
+                  <MarkdownRenderer
                     components={{
                       p: ({ ...props }) => (
                         <p
@@ -133,7 +133,7 @@ export function InnovationSection({ header, image: _image }: InnovationSectionPr
                     }}
                   >
                     {description}
-                  </ReactMarkdown>
+                  </MarkdownRenderer>
                 </div>
               </FadeInWhenInView>
             )}
