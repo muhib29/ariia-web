@@ -25,10 +25,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
-        <link rel="preload" href="/images/hero-logo.webp" as="image" type="image/png" />
-        <link rel="preload" href="/images/headerlogo.webp" as="image" type="image/png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" href="/images/hero-logo.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/images/headerlogo.webp" as="image" type="image/webp" />
         {strapiUrl ? (
           <>
             <link rel="dns-prefetch" href={strapiUrl} />

@@ -25,18 +25,26 @@ const LottieAnimation = React.forwardRef<any, LottieAnimationProps>(
 
     useEffect(() => {
       let mounted = true;
-      dotLottieModulePromise ||= import('@lottiefiles/dotlottie-react');
-      dotLottieModulePromise
-        .then((mod) => {
-          if (mounted) {
-            setDotLottieComponent(() => mod.DotLottieReact);
-          }
-        })
-        .catch(() => {});
 
-      return () => {
-        mounted = false;
+      const loadLibrary = () => {
+        dotLottieModulePromise ||= import('@lottiefiles/dotlottie-react');
+        dotLottieModulePromise
+          .then((mod) => {
+            if (mounted) setDotLottieComponent(() => mod.DotLottieReact);
+          })
+          .catch(() => {});
       };
+
+      if (isMobileDevice()) {
+        const delay = typeof window !== 'undefined' && 'requestIdleCallback' in window
+          ? new Promise(resolve => (window as any).requestIdleCallback(resolve, { timeout: 4000 }))
+          : new Promise(resolve => setTimeout(resolve, 2500));
+        delay.then(() => { if (mounted) loadLibrary(); });
+      } else {
+        loadLibrary();
+      }
+
+      return () => { mounted = false; };
     }, []);
 
     useEffect(() => {
