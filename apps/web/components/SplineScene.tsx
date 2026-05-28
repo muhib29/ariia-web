@@ -38,26 +38,6 @@ export default function SplineScene({
     () => userHasInteractedWithPage
   );
 
-  // Disable Spline entirely for Chrome iOS — WebGL rendering causes main thread blocking on route transitions
-  if (typeof window !== 'undefined' && /CriOS/i.test(navigator.userAgent)) {
-    const containerStyle: CSSProperties = {
-      width: '100%',
-      height: config.height[screenSize],
-      position: 'relative',
-      ...style,
-    };
-    return (
-      <div
-        ref={containerRef}
-        className={`spline-container ${className}`}
-        style={containerStyle}
-        data-scene-id={config.id}
-      >
-        <SplineStaticPlaceholder config={config} fillParent className="absolute inset-0" />
-      </div>
-    );
-  }
-
   // Viewport detection
   useEffect(() => {
     if (shouldLoadImmediately || !containerRef.current) return;

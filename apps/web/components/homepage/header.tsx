@@ -28,7 +28,7 @@ import {
   CollapsibleTrigger,
 } from '@workspace/ui/components/collapsible';
 import { DialogTitle } from '@workspace/ui/components/dialog';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { getLenis } from '@/lib/lenis';
 import { SmoothLink } from '../SmoothLink';
 import { cn } from '@workspace/ui/lib/utils';
@@ -227,6 +227,7 @@ function HeaderContent({
   handleMobileMenuOpenChange: (open: boolean) => void;
   isSticky?: boolean;
 }) {
+  const router = useRouter();
   const menuItemClasses = (href: string) =>
     `flex items-start gap-3 p-3 rounded-lg transition-colors ${activePath === href ? 'bg-[#EEFBFF]' : ''
     } menu-item-hover`;
@@ -419,7 +420,14 @@ function HeaderContent({
                       href={item.href}
                       prefetch={false}
                       className="flex items-center gap-2 px-4 border-b border-[#93d8fa4c] py-3 min-h-[44px] text-gray-700 font-bold hover:bg-gray-100 transition-colors touch-manipulation relative z-[1]"
-                      onClick={() => handleMobileMenuOpenChange(false)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const href = e.currentTarget.getAttribute('href');
+                        handleMobileMenuOpenChange(false);
+                        setTimeout(() => {
+                          if (href) router.push(href);
+                        }, 300);
+                      }}
                     >
                       <span>{item.label}</span>
                     </Link>
@@ -461,7 +469,14 @@ function HeaderContent({
                                 'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]',
                               )}
                               //@ts-ignore
-                              onClick={() => handleMobileMenuOpenChange(false)}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                const href = e.currentTarget.getAttribute('href');
+                                handleMobileMenuOpenChange(false);
+                                setTimeout(() => {
+                                  if (href) router.push(href);
+                                }, 300);
+                              }}
                             >
                               <div className="flex flex-col gap-[1px]">
                                 <span className="text-base leading-6">{link.label}</span>
@@ -508,7 +523,14 @@ function HeaderContent({
                               className={cn(
                                 'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]',
                               )} // @ts-ignore
-                              onClick={() => handleMobileMenuOpenChange(false)}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                const href = e.currentTarget.getAttribute('href');
+                                handleMobileMenuOpenChange(false);
+                                setTimeout(() => {
+                                  if (href) router.push(href);
+                                }, 300);
+                              }}
                             >
                               <div className="flex flex-col gap-[1px]">
                                 <span className="text-base leading-6">{link.label}</span>
@@ -528,7 +550,14 @@ function HeaderContent({
                       href="/login"
                       prefetch={false}
                       className="flex-1 text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors px-3 py-3 min-h-[44px] rounded-full text-center bg-transparent touch-manipulation flex items-center justify-center"
-                      onClick={() => handleMobileMenuOpenChange(false)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const href = e.currentTarget.getAttribute('href');
+                        handleMobileMenuOpenChange(false);
+                        setTimeout(() => {
+                          if (href) router.push(href);
+                        }, 300);
+                      }}
                     >
                       Log In
                     </Link>
@@ -536,7 +565,18 @@ function HeaderContent({
                       asChild
                       className="flex-1 bg-gray-900/95 hover:bg-gray-800/90 text-white font-medium text-sm mx-0 px-4 h-[32px] rounded-full"
                     >
-                      <Link href="/trial" prefetch={false} onClick={() => handleMobileMenuOpenChange(false)}>
+                      <Link
+                        href="/trial"
+                        prefetch={false}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const href = e.currentTarget.getAttribute('href');
+                          handleMobileMenuOpenChange(false);
+                          setTimeout(() => {
+                            if (href) router.push(href);
+                          }, 300);
+                        }}
+                      >
                         1-Month Free Trial
                       </Link>
                     </Button>
@@ -554,6 +594,7 @@ function HeaderContent({
 export function Header({ isHomePage = true }: { isHomePage?: boolean }) {
   const NO_GRADIENT_ROUTES = ['/', '/#faq', '/#about-us/', '/pricing'];
   const pathname = usePathname();
+  const router = useRouter();
   const [activePath, setActivePath] = useState<string | null>(null);
   const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

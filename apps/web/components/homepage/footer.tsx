@@ -274,9 +274,9 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
                   <ul className="space-y-3">
                     {FOOTER_LINKS[1].map((link) => (
                       <li key={link.href}>
-                        <a href={link.href} className={FOOTER_NAV_LINK_CLASS}>
+                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS}>
                           {link.label}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -287,9 +287,9 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
                   <ul className="space-y-3">
                     {FOOTER_LINKS[2].map((link) => (
                       <li key={link.href}>
-                        <a href={link.href} className={FOOTER_NAV_LINK_CLASS}>
+                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS}>
                           {link.label}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -300,9 +300,9 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
                   <ul className="space-y-3">
                     {FOOTER_LINKS[3].map((link) => (
                       <li key={link.href}>
-                        <a href={link.href} className={FOOTER_NAV_LINK_CLASS}>
+                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS}>
                           {link.label}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
