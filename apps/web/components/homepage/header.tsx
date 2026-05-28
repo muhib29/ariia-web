@@ -426,9 +426,7 @@ function HeaderContent({
                         e.preventDefault();
                         const href = e.currentTarget.getAttribute('href');
                         handleMobileMenuOpenChange(false);
-                        setTimeout(() => {
-                          if (href) router.push(href);
-                        }, 300);
+                        if (href) router.push(href);
                       }}
                     >
                       <span>{item.label}</span>
@@ -475,9 +473,7 @@ function HeaderContent({
                                 e.preventDefault();
                                 const href = e.currentTarget.getAttribute('href');
                                 handleMobileMenuOpenChange(false);
-                                setTimeout(() => {
-                                  if (href) router.push(href);
-                                }, 300);
+                                if (href) router.push(href);
                               }}
                             >
                               <div className="flex flex-col gap-[1px]">
@@ -529,9 +525,7 @@ function HeaderContent({
                                 e.preventDefault();
                                 const href = e.currentTarget.getAttribute('href');
                                 handleMobileMenuOpenChange(false);
-                                setTimeout(() => {
-                                  if (href) router.push(href);
-                                }, 300);
+                                if (href) router.push(href);
                               }}
                             >
                               <div className="flex flex-col gap-[1px]">
@@ -556,9 +550,7 @@ function HeaderContent({
                         e.preventDefault();
                         const href = e.currentTarget.getAttribute('href');
                         handleMobileMenuOpenChange(false);
-                        setTimeout(() => {
-                          if (href) router.push(href);
-                        }, 300);
+                        if (href) router.push(href);
                       }}
                     >
                       Log In
@@ -574,9 +566,7 @@ function HeaderContent({
                           e.preventDefault();
                           const href = e.currentTarget.getAttribute('href');
                           handleMobileMenuOpenChange(false);
-                          setTimeout(() => {
                             if (href) router.push(href);
-                          }, 300);
                         }}
                       >
                         1-Month Free Trial

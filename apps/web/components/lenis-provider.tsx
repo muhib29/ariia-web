@@ -47,7 +47,7 @@ export function LenisProvider({ children }: { children: ReactNode }) {
         } else {
           window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
         }
-      }, 50);
+      }, 100);
 
       return () => window.clearTimeout(timeout);
     }
