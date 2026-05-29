@@ -34,6 +34,21 @@ export default function SplineSceneInner({
   const shouldLoadImmediately = priority || config.priority;
   const [isNearViewport, setIsNearViewport] = useState(shouldLoadImmediately);
 
+  // Check WebGL support immediately
+  useEffect(() => {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) {
+        console.warn('WebGL not supported on this device');
+        setError(true);
+      }
+    } catch (e) {
+      console.warn('WebGL check failed:', e);
+      setError(true);
+    }
+  }, []);
+
   useEffect(() => {
     if (shouldLoadImmediately || !containerRef.current) return;
 
