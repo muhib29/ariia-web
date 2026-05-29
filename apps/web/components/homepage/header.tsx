@@ -391,7 +391,10 @@ function HeaderContent({
 
           {/* Mobile menu (replaces Radix SheetContent). Rendered when open. */}
           {isMounted && mobileMenuOpen && (
-            <div className="p-0 bg-transparent rounded-none border-0 shadow-none z-[200] pointer-events-auto duration-0 mobile-menu-sheet">
+            <div
+              className="p-0 bg-transparent rounded-none border-0 shadow-none z-[200] pointer-events-auto duration-0 mobile-menu-sheet"
+              style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200 }}
+            >
               {/* DialogTitle removed; keep sr-only label on first child for accessibility */}
 
               <div
