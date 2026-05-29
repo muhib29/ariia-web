@@ -1,8 +1,8 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
-import { lenisScrollTo } from '@/lib/lenis';
+// import { usePathname } from 'next/navigation';
+// import { useEffect } from 'react';
+// import { lenisScrollTo } from '@/lib/lenis';
 
 function getHeaderOffset() {
   // Prefer a real header element if present; fall back to a conservative default.
@@ -14,6 +14,7 @@ function getHeaderOffset() {
 }
 
 function scrollToHashWithRetry(hash: string) {
+  /*
   const id = hash.replace(/^#/, '');
   if (!id) return;
 
@@ -43,9 +44,11 @@ function scrollToHashWithRetry(hash: string) {
   };
 
   tick();
+  */
 }
 
 export function HashScrollManager() {
+  /*
   const pathname = usePathname();
 
   const runScroll = () => {
@@ -90,6 +93,8 @@ export function HashScrollManager() {
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
+  // Hash scroll manager disabled — return null and preserve original implementation above.
+  */
   return null;
 }
 

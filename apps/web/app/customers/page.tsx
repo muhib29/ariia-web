@@ -1,6 +1,6 @@
 import { CustomersSection } from '../../components/homepage/customers-section';
 import { allCustomersQuery } from '../../graphql/querys';
-import { fetchAPI } from '../../utils/api-helper';
+import { fetchAPI } from '../../utils/api-helper';  
 
 export default async function CustomersPage() {
   const res = await fetchAPI(allCustomersQuery);

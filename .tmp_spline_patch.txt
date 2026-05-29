@@ -1,0 +1,22 @@
+*** Begin Patch
+*** Update File: C:/Users/a/Desktop/Ericc/F97-GAI-AI-Call-Assistant-Website-main/apps/web/components/SplineScene.tsx
+@@
+-      {SplineComponent && !error && (
+-        <div ref={splineViewerRef} style={splineStyle}>
+-          <SplineComponent scene={config.url} onLoad={handleLoad} onError={handleError} />
+-        </div>
+-      )}
+-    </div>
+-  );
+-}
++      {SplineComponent && !error && (
++        <div ref={splineViewerRef} style={splineStyle}>
++          <SplineComponent scene={config.url} onLoad={handleLoad} onError={handleError} />
++        </div>
++      )}
++    </div>
++  );
++  */
++  return null;
++}
+*** End Patch

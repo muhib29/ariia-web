@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { shouldUseScrollReveal } from '@/lib/device-capabilities';
+import React from 'react';
+// import { shouldUseScrollReveal } from '@/lib/device-capabilities';
 
 let dotLottieModulePromise: Promise<typeof import('@lottiefiles/dotlottie-react')> | null = null;
 
@@ -17,6 +17,7 @@ export type LottieAnimationProps = {
 
 const LottieAnimation = React.forwardRef<any, LottieAnimationProps>(
   ({ src, loop = true, autoplay = true, speed = 1, className, playWhenInView = true }, ref) => {
+    /*
     const containerRef = useRef<HTMLDivElement>(null);
     const [inView, setInView] = useState(false);
     const [hasEnteredView, setHasEnteredView] = useState(!playWhenInView);
@@ -127,6 +128,8 @@ const LottieAnimation = React.forwardRef<any, LottieAnimationProps>(
         )}
       </div>
     );
+    */
+    return null;
   },
 );
 

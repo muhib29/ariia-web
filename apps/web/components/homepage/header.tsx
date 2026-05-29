@@ -596,13 +596,13 @@ export function Header({ isHomePage = true }: { isHomePage?: boolean }) {
     const isChromeIOS = /CriOS/i.test(navigator.userAgent);
     if (open) {
       lenis?.stop?.();
-      window.dispatchEvent(new Event('spline-pause'));
+      // window.dispatchEvent(new Event('spline-pause'));
       if (isChromeIOS) {
         document.documentElement.setAttribute('data-chrome-ios', 'true');
       }
     } else {
       lenis?.start?.();
-      window.dispatchEvent(new Event('spline-resume'));
+      // window.dispatchEvent(new Event('spline-resume'));
       document.documentElement.removeAttribute('data-chrome-ios');
     }
     setMobileMenuOpen(open);

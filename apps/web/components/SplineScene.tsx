@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, CSSProperties, useEffect, useRef } from 'react';
+import type { CSSProperties } from 'react';
+// import { useState, CSSProperties, useEffect, useRef } from 'react';
 import type { SplineSceneConfig } from '@/config/spline-scenes';
 import type { Application } from '@splinetool/runtime';
-import { useScreenSize } from '@/hooks/useScreenSize';
-import { SplineStaticPlaceholder } from './SplineStaticPlaceholder';
+// import { useScreenSize } from '@/hooks/useScreenSize';
+// import { SplineStaticPlaceholder } from './SplineStaticPlaceholder';
 
 // Module-level flag — listeners added once across ALL instances
 let globalInteractionListenersAdded = false;
@@ -25,6 +26,8 @@ export default function SplineScene({
   onLoad,
   priority = false,
 }: SplineSceneProps) {
+
+  /*
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
   const [SplineComponent, setSplineComponent] = useState<any>(null);
@@ -223,4 +226,6 @@ export default function SplineScene({
       )}
     </div>
   );
+  */
+  return null;
 }
