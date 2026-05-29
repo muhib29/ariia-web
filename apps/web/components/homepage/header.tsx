@@ -30,7 +30,6 @@ import {
 // DialogTitle removed — menu now renders client-side only
 import { usePathname, useRouter } from 'next/navigation';
 import { getLenis } from '@/lib/lenis';
-import { SmoothLink } from '../SmoothLink';
 import { cn } from '@workspace/ui/lib/utils';
 import { AriiaSvgMark } from '../icons/AriiaSvgMark';
 
@@ -227,7 +226,6 @@ function HeaderContent({
   handleMobileMenuOpenChange: (open: boolean) => void;
   isSticky?: boolean;
 }) {
-  const router = useRouter();
   const menuItemClasses = (href: string) =>
     `flex items-start gap-3 p-3 rounded-lg transition-colors ${activePath === href ? 'bg-[#EEFBFF]' : ''
     } menu-item-hover`;
@@ -417,20 +415,13 @@ function HeaderContent({
 
                 <nav className="pb-6 relative z-[1]">
                   {MOBILE_MENU_SINGLE_LINKS.map((item) => (
-                    <Link
+                    <a
                       key={item.href}
                       href={item.href}
-                      prefetch={false}
                       className="flex items-center gap-2 px-4 border-b border-[#93d8fa4c] py-3 min-h-[44px] text-gray-700 font-bold hover:bg-gray-100 transition-colors touch-manipulation relative z-[1]"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const href = e.currentTarget.getAttribute('href');
-                        handleMobileMenuOpenChange(false);
-                        if (href) router.push(href);
-                      }}
                     >
                       <span>{item.label}</span>
-                    </Link>
+                    </a>
                   ))}
 
                   {MOBILE_MENU_GROUPS.map((group) => (
@@ -461,25 +452,17 @@ function HeaderContent({
                       <CollapsibleContent>
                         <div className="flex flex-col w-full px-4 gap-1 pb-4 border-b border-[#93d8fa4c]">
                           {group.links.map((link) => (
-                            <Link
+                            <a
                               key={link.href}
                               href={link.href}
-                              prefetch={false}
                               className={cn(
                                 'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]'
                               )}
-                              //@ts-ignore
-                              onClick={(e) => {
-                                e.preventDefault();
-                                const href = e.currentTarget.getAttribute('href');
-                                handleMobileMenuOpenChange(false);
-                                if (href) router.push(href);
-                              }}
                             >
                               <div className="flex flex-col gap-[1px]">
                                 <span className="text-base leading-6">{link.label}</span>
                               </div>
-                            </Link>
+                            </a>
                           ))}
                         </div>
                       </CollapsibleContent>
@@ -514,24 +497,17 @@ function HeaderContent({
                       <CollapsibleContent>
                         <div className="flex flex-col w-full px-4 gap-2 pb-4 border-b border-[#93d8fa4c]">
                           {group.links.map((link) => (
-                            <Link
+                            <a
                               key={link.href}
                               href={link.href}
-                              prefetch={false}
                               className={cn(
                                 'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]'
-                              )} // @ts-ignore
-                              onClick={(e) => {
-                                e.preventDefault();
-                                const href = e.currentTarget.getAttribute('href');
-                                handleMobileMenuOpenChange(false);
-                                if (href) router.push(href);
-                              }}
+                              )}
                             >
                               <div className="flex flex-col gap-[1px]">
                                 <span className="text-base leading-6">{link.label}</span>
                               </div>
-                            </Link>
+                            </a>
                           ))}
                         </div>
                       </CollapsibleContent>
@@ -542,35 +518,17 @@ function HeaderContent({
                 {/* Bottom CTA bar (Log In + 1-Month Free Trial) */}
                 <div className="px-4 pb-6 pt-2 shrink-0 relative z-[1]">
                   <div className="w-full bg-white/40 rounded-full p-[5px] shadow-[0_14px_36px_rgba(15,23,42,0.14)] flex items-center justify-between gap-2 border border-white/45 will-change-auto">
-                    <Link
+                    <a
                       href="/login"
-                      prefetch={false}
                       className="flex-1 text-gray-700 hover:text-gray-900 font-medium text-sm transition-colors px-3 py-3 min-h-[44px] rounded-full text-center bg-transparent touch-manipulation flex items-center justify-center"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const href = e.currentTarget.getAttribute('href');
-                        handleMobileMenuOpenChange(false);
-                        if (href) router.push(href);
-                      }}
                     >
                       Log In
-                    </Link>
+                    </a>
                     <Button
                       asChild
                       className="flex-1 bg-gray-900/95 hover:bg-gray-800/90 text-white font-medium text-sm mx-0 px-4 h-[32px] rounded-full"
                     >
-                      <Link
-                        href="/trial"
-                        prefetch={false}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          const href = e.currentTarget.getAttribute('href');
-                          handleMobileMenuOpenChange(false);
-                            if (href) router.push(href);
-                        }}
-                      >
-                        1-Month Free Trial
-                      </Link>
+                      <a href="/trial">1-Month Free Trial</a>
                     </Button>
                   </div>
                 </div>
@@ -586,7 +544,6 @@ function HeaderContent({
 export function Header({ isHomePage = true }: { isHomePage?: boolean }) {
   const NO_GRADIENT_ROUTES = ['/', '/#faq', '/#about-us/', '/pricing'];
   const pathname = usePathname();
-  const router = useRouter();
   const [activePath, setActivePath] = useState<string | null>(null);
   const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

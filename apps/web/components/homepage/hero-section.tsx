@@ -8,10 +8,10 @@ import { FadeInWhenInView } from '@/components/animations/FadeInWhenInView';
 import { useIsMobile } from '@workspace/ui/hooks/use-mobile';
 import { SPLINE_SCENES } from '@/config/spline-scenes';
 import { HeroLogo } from '../icons/HeroLogo';
+import SplineScene from '../SplineScene';
 
 import dynamic from 'next/dynamic';
 
-const SplineScene = dynamic(() => import('../SplineScene'), { ssr: false });
 const ReactMarkdown = dynamic(() => import('react-markdown'), { ssr: false });
 
 const HeroConnectorPath = dynamic(
@@ -124,90 +124,92 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
       ? leftContent.typewriterText
       : ['AI Agents', 'Smart Assistants', 'Digital Co-Pilots'];
 
-  const updatePath = useCallback(() => {
-    if (!showConnector) {
-      setPathData(null);
-      return;
-    }
+  // Connector path update disabled for Safari troubleshooting.
+  // This removes requestAnimationFrame and ResizeObserver loops.
+  // const updatePath = useCallback(() => {
+  //   if (!showConnector) {
+  //     setPathData(null);
+  //     return;
+  //   }
 
-    const selectedRef = itemRefs.current[selectedBusiness];
-    const orb = orbRef.current;
-    const container = containerRef.current;
+  //   const selectedRef = itemRefs.current[selectedBusiness];
+  //   const orb = orbRef.current;
+  //   const container = containerRef.current;
 
-    if (!selectedRef || !orb || !container) return;
+  //   if (!selectedRef || !orb || !container) return;
 
-    const itemRect = selectedRef.getBoundingClientRect();
-    const orbRect = orb.getBoundingClientRect();
-    const containerRect = container.getBoundingClientRect();
+  //   const itemRect = selectedRef.getBoundingClientRect();
+  //   const orbRect = orb.getBoundingClientRect();
+  //   const containerRect = container.getBoundingClientRect();
 
-    const itemCenterX = itemRect.left + itemRect.width / 2 - containerRect.left;
-    const orbCenterX = orbRect.left + orbRect.width / 2 - containerRect.left;
-    const itemIsLeftOfOrb = itemCenterX <= orbCenterX;
+  //   const itemCenterX = itemRect.left + itemRect.width / 2 - containerRect.left;
+  //   const orbCenterX = orbRect.left + orbRect.width / 2 - containerRect.left;
+  //   const itemIsLeftOfOrb = itemCenterX <= orbCenterX;
 
-    const itemAnchorX = itemIsLeftOfOrb
-      ? itemRect.right - containerRect.left
-      : itemRect.left - containerRect.left;
-    const orbAnchorX = itemIsLeftOfOrb
-      ? orbRect.left - containerRect.left
-      : orbRect.right - containerRect.left;
+  //   const itemAnchorX = itemIsLeftOfOrb
+  //     ? itemRect.right - containerRect.left
+  //     : itemRect.left - containerRect.left;
+  //   const orbAnchorX = itemIsLeftOfOrb
+  //     ? orbRect.left - containerRect.left
+  //     : orbRect.right - containerRect.left;
 
-    // Keep a tiny inset from anchors so the connector visually touches both ends.
-    const itemOffset = isMobile ? 3 : 5;
-    const orbOffset = isMobile ? 1 : 2;
-    const startX = itemAnchorX + (itemIsLeftOfOrb ? itemOffset : -itemOffset);
-    const endX = orbAnchorX + (itemIsLeftOfOrb ? -orbOffset : orbOffset);
+  //   // Keep a tiny inset from anchors so the connector visually touches both ends.
+  //   const itemOffset = isMobile ? 3 : 5;
+  //   const orbOffset = isMobile ? 1 : 2;
+  //   const startX = itemAnchorX + (itemIsLeftOfOrb ? itemOffset : -itemOffset);
+  //   const endX = orbAnchorX + (itemIsLeftOfOrb ? -orbOffset : orbOffset);
 
-    const direction = Math.sign(endX - startX) || 1;
-    const curvePull = Math.max(36, Math.min(110, Math.abs(endX - startX) * 0.4));
-    const controlX1 = startX + direction * curvePull;
-    const controlX2 = endX - direction * curvePull;
+  //   const direction = Math.sign(endX - startX) || 1;
+  //   const curvePull = Math.max(36, Math.min(110, Math.abs(endX - startX) * 0.4));
+  //   const controlX1 = startX + direction * curvePull;
+  //   const controlX2 = endX - direction * curvePull;
 
-    const startY = itemRect.top + itemRect.height / 2 - containerRect.top;
-    const endY = orbRect.top + orbRect.height / 2 - containerRect.top;
+  //   const startY = itemRect.top + itemRect.height / 2 - containerRect.top;
+  //   const endY = orbRect.top + orbRect.height / 2 - containerRect.top;
 
-    const path = `M ${startX},${startY} C ${controlX1},${startY} ${controlX2},${endY} ${endX},${endY}`;
-    setPathData(path);
-  }, [isMobile, selectedBusiness, showConnector]);
+  //   const path = `M ${startX},${startY} C ${controlX1},${startY} ${controlX2},${endY} ${endX},${endY}`;
+  //   setPathData(path);
+  // }, [isMobile, selectedBusiness, showConnector]);
 
-  const schedulePathUpdate = useCallback(() => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => updatePath());
-    });
-  }, [updatePath]);
+  // const schedulePathUpdate = useCallback(() => {
+  //   requestAnimationFrame(() => {
+  //     requestAnimationFrame(() => updatePath());
+  //   });
+  // }, [updatePath]);
 
-  useEffect(() => {
-    if (!showConnector) {
-      setIsAnimationComplete(true);
-      return;
-    }
+  // useEffect(() => {
+  //   if (!showConnector) {
+  //     setIsAnimationComplete(true);
+  //     return;
+  //   }
 
-    const connectorDelay = isMobile ? 350 : 1000;
-    const timer = setTimeout(() => {
-      setIsAnimationComplete(true);
-      schedulePathUpdate();
-    }, connectorDelay);
-    return () => clearTimeout(timer);
-  }, [isMobile, schedulePathUpdate, showConnector]);
+  //   const connectorDelay = isMobile ? 350 : 1000;
+  //   const timer = setTimeout(() => {
+  //     setIsAnimationComplete(true);
+  //     schedulePathUpdate();
+  //   }, connectorDelay);
+  //   return () => clearTimeout(timer);
+  // }, [isMobile, schedulePathUpdate, showConnector]);
 
-  useLayoutEffect(() => {
-    if (!isAnimationComplete || !showConnector) return;
-    const resizeObserver = new ResizeObserver(() => schedulePathUpdate());
-    const container = containerRef.current;
-    const orb = orbRef.current;
-    const selectedRef = itemRefs.current[selectedBusiness];
+  // useLayoutEffect(() => {
+  //   if (!isAnimationComplete || !showConnector) return;
+  //   const resizeObserver = new ResizeObserver(() => schedulePathUpdate());
+  //   const container = containerRef.current;
+  //   const orb = orbRef.current;
+  //   const selectedRef = itemRefs.current[selectedBusiness];
 
-    if (container) resizeObserver.observe(container);
-    if (orb) resizeObserver.observe(orb);
-    if (selectedRef) resizeObserver.observe(selectedRef);
+  //   if (container) resizeObserver.observe(container);
+  //   if (orb) resizeObserver.observe(orb);
+  //   if (selectedRef) resizeObserver.observe(selectedRef);
 
-    schedulePathUpdate();
+  //   schedulePathUpdate();
 
-    window.addEventListener('resize', schedulePathUpdate);
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener('resize', schedulePathUpdate);
-    };
-  }, [selectedBusiness, isMobile, isAnimationComplete, schedulePathUpdate, showConnector]);
+  //   window.addEventListener('resize', schedulePathUpdate);
+  //   return () => {
+  //     resizeObserver.disconnect();
+  //     window.removeEventListener('resize', schedulePathUpdate);
+  //   };
+  // }, [selectedBusiness, isMobile, isAnimationComplete, schedulePathUpdate, showConnector]);
 
   return (
     <section className="relative flex flex-col justify-center bg-white overflow-hidden min-h-[760px] md:min-h-[780px] lg:h-[860px] lg:min-h-[860px] lg:max-h-[860px] 2xl:h-[900px] 2xl:min-h-[900px] 2xl:max-h-[900px] pt-20 xl:pt-10 pb-6 md:pb-8 lg:pb-0 hero-orb-breakpoint-1860">

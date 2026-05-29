@@ -1,10 +1,8 @@
 'use client';
-import dynamic from 'next/dynamic';
 import MarkdownRenderer from '../markdown-renderer';
 import { SectionHeader } from '../SectionHeader';
 import { SPLINE_SCENES } from '@/config/spline-scenes';
-
-const SplineScene = dynamic(() => import('../SplineScene'), { ssr: false });
+import SplineScene from '../SplineScene';
 import { FadeInWhenInView } from '@/components/animations/FadeInWhenInView';
 
 export interface InnovationSectionProps {

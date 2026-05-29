@@ -13,11 +13,10 @@ import { GiftIcon } from '../icons/GiftIcon';
 import { FileUpload } from './FileUpload';
 import { SuccessModal } from './SuccessModal';
 import { useRouter } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import { SectionHeader } from '../SectionHeader';
 import { SPLINE_SCENES } from '@/config/spline-scenes';
 import { ComponentPropsWithoutRef } from 'react';
-const SplineScene = dynamic(() => import('../SplineScene'), { ssr: false });
+import SplineScene from '../SplineScene';
 import { FadeInWhenInView } from '../animations/FadeInWhenInView';
 
 // Define types for the career data
