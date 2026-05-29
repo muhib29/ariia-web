@@ -360,6 +360,7 @@ export function PricingSection({ pricing }: { pricing: PricingData }) {
                       pricing.heroSection.sliderInfo.cta.httpsUrl ||
                       '#'
                     }
+                    prefetch={false}
                     target={pricing.heroSection.sliderInfo.cta.httpsUrl ? '_blank' : undefined}
                   >
                     <button className="mt-4 px-5 py-2 rounded-full bg-white text-blue-700 font-semibold hover:bg-gray-100 transition-all duration-200 transform hover:scale-105 text-base shadow-md border-2 border-blue-100 hover:cursor-pointer">
@@ -626,7 +627,7 @@ export function PricingSection({ pricing }: { pricing: PricingData }) {
                           {enterprise?.description ||
                             'Designed for enterprises running large-scale operations that require maximum cost efficiency and custom integrations. Get in touch with our team to receive a quote tailored to your needs and usage.'}
                         </p>
-                        <Link href="/pricing/contact-us/" className="w-full">
+                        <Link href="/pricing/contact-us/" prefetch={false} className="w-full">
                           <button className="w-full bg-[#1976FF] text-white rounded-full py-2 z-10 font-semibold mb-3 relative hover:cursor-pointer hover:bg-[#4a92fe] active:bg-[#4a92fe] transition-all duration-200 transform hover:scale-105">
                             Contact Us
                           </button>

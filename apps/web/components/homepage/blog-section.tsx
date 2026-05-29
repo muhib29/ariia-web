@@ -61,6 +61,7 @@ export function BlogSection({ blogs }: { blogs: any[] }) {
               <FadeInWhenInView key={idx} delay={idx * 120}>
                 <Link
                   href={`/blog/${slug}`}
+                  prefetch={false}
                   className="flex flex-col items-start cursor-pointer group w-full hover:scale-[1.02] transition-transform duration-300"
                 >
                   {/* Featured Image Only - 3:2 Aspect Ratio */}

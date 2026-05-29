@@ -1,9 +1,7 @@
 import type React from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { Providers } from '../components/providers';
 import './globals.css';
-
 
 const inter = Inter({
   subsets: ['latin'],
@@ -31,13 +29,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {strapiUrl ? (
           <>
             <link rel="dns-prefetch" href={strapiUrl} />
-            {/* images/card-5-right.svg */}
           </>
         ) : null}
       </head>
-      <body className="font-sans antialiased">
-        <Providers>{children}</Providers>
-      </body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }

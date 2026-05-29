@@ -86,7 +86,7 @@ function JobCard({ title, slug, description, jobInfo }: JobCardProps) {
     ) : null;
 
   return (
-    <Link href={href} className="mb-5 block">
+    <Link href={href} prefetch={false} className="mb-5 block">
       <div className="group flex flex-col md:flex-row p-4 md:p-5 gap-4 md:gap-5 rounded-[28px] [background:linear-gradient(280deg,_rgba(84,202,242,0.09)_31.63%,_rgba(84,202,242,0.06)_62.05%,_rgba(84,202,242,0.06)_92.48%),_#FFF] shadow-[0_2.589px_3.884px_-0.647px_rgba(0,0,0,0.10),_0_1.295px_2.589px_-1.295px_rgba(0,0,0,0.10)] transition-all duration-300 motion-safe:hover:-translate-y-1 motion-safe:hover:shadow-[0_16px_40px_-24px_rgba(20,132,180,0.55)]">
         <div className="flex-1 min-w-0 p-0 md:p-3">
           <h3 className="font-bold text-lg md:text-xl text-gray-900 mb-2 transition-colors duration-300 group-hover:text-sky-700">

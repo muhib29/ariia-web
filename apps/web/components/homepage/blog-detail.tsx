@@ -185,7 +185,7 @@ export function BlogDetail({ blog, otherBlogs = [] }: { blog: any; otherBlogs?: 
       </div>
       <Header isHomePage={false} />
       <div className="w-full flex items-center justify-between pt-22 md:pt-28  px-5 md:px-4 max-w-6xl mx-auto z-10 relative">
-        <Link href="/blog">
+        <Link href="/blog" prefetch={false}>
           <span className="flex items-center text-gray-500 hover:text-black cursor-pointer transition-colors">
             <svg
               className="w-5 h-5 mr-1"
@@ -470,6 +470,7 @@ export function BlogDetail({ blog, otherBlogs = [] }: { blog: any; otherBlogs?: 
                 <Link
                   key={idx}
                   href={`/blog/${slug}`}
+                  prefetch={false}
                   className="flex min-w-0 w-full flex-col items-start cursor-pointer group hover:scale-[1.02] transition-transform duration-300"
                 >
                   {/* Featured Image Only - 3:2 Aspect Ratio */}

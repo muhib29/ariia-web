@@ -66,7 +66,7 @@ export function CustomerDetail({ customer }: { customer: CustomerDetailData }) {
 
       {/* Back + Share bar */}
       <div className="w-full flex items-center justify-between pt-22 md:pt-28 pb-2 px-5 md:px-4 max-w-6xl mx-auto z-10 relative">
-        <Link href="/customers">
+        <Link href="/customers" prefetch={false}>
           <span className="flex items-center text-gray-500 hover:text-black cursor-pointer transition-colors">
             <svg
               className="w-5 h-5 mr-1"
