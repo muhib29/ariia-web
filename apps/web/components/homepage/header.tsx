@@ -27,7 +27,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@workspace/ui/components/collapsible';
-import { DialogTitle } from '@workspace/ui/components/dialog';
+// DialogTitle removed — menu now renders client-side only
 import { usePathname, useRouter } from 'next/navigation';
 import { getLenis } from '@/lib/lenis';
 import { SmoothLink } from '../SmoothLink';
@@ -237,6 +237,11 @@ function HeaderContent({
 
   const [isCompanyOpen, setIsCompanyOpen] = useState(false);
   const [isResourcesOpen, setIsResourcesOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <div className="flex items-center justify-between">
@@ -385,11 +390,9 @@ function HeaderContent({
           </Button>
 
           {/* Mobile menu (replaces Radix SheetContent). Rendered when open. */}
-          {mobileMenuOpen && (
+          {isMounted && mobileMenuOpen && (
             <div className="p-0 bg-transparent rounded-none border-0 shadow-none z-[200] pointer-events-auto duration-0 mobile-menu-sheet">
-              <DialogTitle>
-                <span className="sr-only">Mobile Navigation Menu</span>
-              </DialogTitle>
+              {/* DialogTitle removed; keep sr-only label on first child for accessibility */}
 
               <div
                 className="mx-2 mt-2 rounded-[18px] border border-white/40 bg-white/90 shadow-[0_14px_36px_rgba(15,23,42,0.12)] overflow-y-auto relative flex flex-col max-h-[calc(100dvh-1.5rem)] touch-manipulation transform-gpu z-[1]"
