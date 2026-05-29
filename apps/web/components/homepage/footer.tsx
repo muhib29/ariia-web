@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
 import { ThumbsUp } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -202,9 +201,9 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
             <div className="flex flex-col-reverse gap-6 px-0 text-sm text-white/90 mb-1 md:mb-4 md:px-10 md:gap-10 md:flex-row">
               {/* First Column - Logo and Social Icons */}
               <div className="flex flex-col md:flex-col items-center sm:pr-12 space-y-6 col-span-2 md:col-span-1">
-                <Link href="/" prefetch={false}>
+                <a href="/" style={{ touchAction: 'manipulation' }}>
                   <HeroLogo width={70} height={70} className="object-contain" />
-                </Link>
+                </a>
                 {/* Social Icons */}
                 <div className="flex gap-4">
                   <a
@@ -276,9 +275,9 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
                   <ul className="space-y-3">
                     {FOOTER_LINKS[1].map((link) => (
                       <li key={link.href}>
-                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS} prefetch={false}>
+                        <a href={link.href} className={FOOTER_NAV_LINK_CLASS} style={{ touchAction: 'manipulation' }}>
                           {link.label}
-                        </Link>
+                        </a>
                       </li>
                     ))}
                   </ul>
@@ -289,9 +288,9 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
                   <ul className="space-y-3">
                     {FOOTER_LINKS[2].map((link) => (
                       <li key={link.href}>
-                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS} prefetch={false}>
+                        <a href={link.href} className={FOOTER_NAV_LINK_CLASS} style={{ touchAction: 'manipulation' }}>
                           {link.label}
-                        </Link>
+                        </a>
                       </li>
                     ))}
                   </ul>
@@ -302,9 +301,9 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
                   <ul className="space-y-3">
                     {FOOTER_LINKS[3].map((link) => (
                       <li key={link.href}>
-                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS} prefetch={false}>
+                        <a href={link.href} className={FOOTER_NAV_LINK_CLASS} style={{ touchAction: 'manipulation' }}>
                           {link.label}
-                        </Link>
+                        </a>
                       </li>
                     ))}
                   </ul>

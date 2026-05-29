@@ -22,8 +22,12 @@ export function unregisterLenis(instance: Lenis) {
   }
 }
 
-export function getLenis(): Lenis {
-  return activeLenis ?? noopLenis;
+export function getLenis(): Lenis | null {
+  try {
+    return activeLenis ?? noopLenis;
+  } catch {
+    return null;
+  }
 }
 
 export function lenisScrollTo(target: string | number | HTMLElement, offset = 0) {

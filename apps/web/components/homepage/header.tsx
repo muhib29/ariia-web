@@ -549,6 +549,14 @@ export function Header({ isHomePage = true }: { isHomePage?: boolean }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleMobileMenuOpenChange = (open: boolean) => {
+    if (!open) {
+      setMobileMenuOpen(false);
+      const lenis = getLenis();
+      lenis?.start?.();
+      document.documentElement.removeAttribute('data-chrome-ios');
+      return;
+    }
+
     const lenis = getLenis();
     const isChromeIOS = /CriOS/i.test(navigator.userAgent);
     if (open) {
@@ -557,10 +565,6 @@ export function Header({ isHomePage = true }: { isHomePage?: boolean }) {
       if (isChromeIOS) {
         document.documentElement.setAttribute('data-chrome-ios', 'true');
       }
-    } else {
-      lenis?.start?.();
-      // window.dispatchEvent(new Event('spline-resume'));
-      document.documentElement.removeAttribute('data-chrome-ios');
     }
     setMobileMenuOpen(open);
   };
@@ -590,6 +594,10 @@ export function Header({ isHomePage = true }: { isHomePage?: boolean }) {
       }
     };
   }, []);
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   const handleDropdownEnter = (dropdownName: string) => {
     if (hoverTimeoutRef.current) {
@@ -626,7 +634,7 @@ export function Header({ isHomePage = true }: { isHomePage?: boolean }) {
           top: isScrolled ? '0px' : '0px',
           paddingTop: isScrolled ? '0px' : '0px',
           transform: isScrolled ? 'translateY(0)' : 'translateY(0)',
-          willChange: 'transform, padding-top',
+          willChange: 'auto',
         }}
       >
         {!shouldHideGradient && (

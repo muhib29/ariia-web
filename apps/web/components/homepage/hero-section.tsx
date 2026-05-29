@@ -214,7 +214,7 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
   return (
     <section className="relative flex flex-col justify-center bg-white overflow-hidden min-h-[760px] md:min-h-[780px] lg:h-[860px] lg:min-h-[860px] lg:max-h-[860px] 2xl:h-[900px] 2xl:min-h-[900px] 2xl:max-h-[900px] pt-20 xl:pt-10 pb-6 md:pb-8 lg:pb-0 hero-orb-breakpoint-1860">
       {/* Decorative elements */}
-      <div className="absolute inset-0 h-full w-full vertical-lines" />
+      <div className="absolute inset-0 h-full w-full vertical-lines pointer-events-none" />
 
       {isMobile === undefined ? (
         <div className="absolute top-[57%] lg:top-[50%] 2xl:top-[50%] left-1/2 w-[690px] h-[690px] -translate-x-1/2 -translate-y-1/2 scale-95">
@@ -223,13 +223,13 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
       ) : (
         <>
           {!isMobile && (
-            <div className="absolute top-[57%] lg:top-[50%] 2xl:top-[50%] left-1/2 w-[690px] h-[690px] -translate-x-1/2 -translate-y-1/2 scale-95 hidden md:block">
+            <div className="absolute top-[57%] lg:top-[50%] 2xl:top-[50%] left-1/2 w-[690px] h-[690px] -translate-x-1/2 -translate-y-1/2 scale-95 hidden md:block pointer-events-none">
               {/* <SplineScene config={SPLINE_SCENES.heroPattern} /> */}
             </div>
           )}
 
           {isMobile && (
-            <div className="absolute top-[26%] left-1/2 w-[390px] h-[390px] sm:w-[600px] sm:h-[600px] -translate-x-1/2 -translate-y-1/2 scale-105 block md:hidden">
+            <div className="absolute top-[26%] left-1/2 w-[390px] h-[390px] sm:w-[600px] sm:h-[600px] -translate-x-1/2 -translate-y-1/2 scale-105 block md:hidden pointer-events-none">
               {/* <SplineScene config={SPLINE_SCENES.heroPatternMobile} /> */}
             </div>
           )}
@@ -238,25 +238,25 @@ export function HeroSection({ leftContent, rightContent }: HeroSectionProps) {
 
       <div className="absolute inset-0 h-full w-full overflow-hidden pointer-events-none">
         <div
-          className="absolute block bottom-[-80px] right-[-100px] w-[300px] h-[260px] rounded-full blur-3xl opacity-30 bg-[linear-gradient(135deg,_#6779FF_0%,_#4E97FA_50%,_#35B5F5_100%)] md:hidden"
+          className="absolute block bottom-[-80px] right-[-100px] w-[300px] h-[260px] rounded-full blur-3xl opacity-30 bg-[linear-gradient(135deg,_#6779FF_0%,_#4E97FA_50%,_#35B5F5_100%)] md:hidden pointer-events-none"
         />
         <div
-          className="absolute block top-[400px] left-[80px] w-2xs h-28 rounded-full blur-3xl opacity-45 bg-gradient-to-r from-[#4E97FA] to-[#2EFFEA] md:hidden"
+          className="absolute block top-[400px] left-[80px] w-2xs h-28 rounded-full blur-3xl opacity-45 bg-gradient-to-r from-[#4E97FA] to-[#2EFFEA] md:hidden pointer-events-none"
         />
         <div
-          className="absolute md:hidden block -bottom-[10px] -left-[100px] w-[740px] h-[270px] rounded-full blur-3xl opacity-[10%] bg-gradient-to-r from-[#6779FF] via-[#4E97FA] to-[#2EFFEA]"
+          className="absolute md:hidden block -bottom-[10px] -left-[100px] w-[740px] h-[270px] rounded-full blur-3xl opacity-[10%] bg-gradient-to-r from-[#6779FF] via-[#4E97FA] to-[#2EFFEA] pointer-events-none"
         />
         <div
-          className="absolute hidden md:block bottom-[-10px] left-[-100px] w-[380px] h-[420px] rounded-full blur-3xl opacity-15 bg-[linear-gradient(135deg,_#6779FF_0%,_#4E97FA_50%,_#35B5F5_100%)]"
+          className="absolute hidden md:block bottom-[-10px] left-[-100px] w-[380px] h-[420px] rounded-full blur-3xl opacity-15 bg-[linear-gradient(135deg,_#6779FF_0%,_#4E97FA_50%,_#35B5F5_100%)] pointer-events-none"
         />
         <div
-          className="absolute hidden md:block bottom-[10px] left-[100px] w-[740px] h-[270px] rounded-full blur-3xl opacity-[28%] bg-gradient-to-r from-[#6779FF] via-[#4E97FA] to-[#2EFFEA]"
+          className="absolute hidden md:block bottom-[10px] left-[100px] w-[740px] h-[270px] rounded-full blur-3xl opacity-[28%] bg-gradient-to-r from-[#6779FF] via-[#4E97FA] to-[#2EFFEA] pointer-events-none"
         />
         <div
-          className="absolute hidden md:block bottom-[50px] right-[525px] w-[380px] h-[240px] rounded-full blur-3xl opacity-[28%] bg-gradient-to-r from-[#7b9cfd] to-[#7abcff]"
+          className="absolute hidden md:block bottom-[50px] right-[525px] w-[380px] h-[240px] rounded-full blur-3xl opacity-[28%] bg-gradient-to-r from-[#7b9cfd] to-[#7abcff] pointer-events-none"
         />
         <div
-          className="absolute hidden md:block bottom-[50px] right-[120px] w-[532px] h-[240px] rounded-full blur-3xl opacity-[28%] bg-gradient-to-r from-[#678dff] to-[#2E96FF]"
+          className="absolute hidden md:block bottom-[50px] right-[120px] w-[532px] h-[240px] rounded-full blur-3xl opacity-[28%] bg-gradient-to-r from-[#678dff] to-[#2E96FF] pointer-events-none"
         />
       </div>
 

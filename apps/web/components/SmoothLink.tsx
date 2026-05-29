@@ -10,24 +10,17 @@ interface SmoothLinkProps {
   className?: string;
 }
 
+
 export function SmoothLink({ href, children, offset = 0, className = '' }: SmoothLinkProps) {
   const { scrollTo } = useSmoothScroll();
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
+  const isHashLink = href.includes('#');
 
-    // Parse the href
-    if (href.includes('#')) {
-      // Important: keep the hash in the pushed URL so HashScrollManager can
-      // read window.location.hash after navigation.
-      scrollTo(href, { offset });
-    } else if (href.startsWith('#')) {
-      // Same page hash scroll
-      scrollTo(href, { offset });
-    } else {
-      // Just navigate
-      scrollTo(href);
-    }
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isHashLink) return; // ← let native Next.js Link handle normal navigation
+
+    e.preventDefault();
+    scrollTo(href, { offset });
   };
 
   return (

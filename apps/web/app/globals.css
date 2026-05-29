@@ -158,8 +158,22 @@
   .mobile-menu-sheet {
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
-    will-change: transform;
     backface-visibility: hidden;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  footer a,
+  footer button,
+  nav a,
+  nav button {
+    position: relative;
+    z-index: 10;
+    pointer-events: auto !important;
+    -webkit-touch-callout: none;
+    touch-action: manipulation;
   }
 
   footer {

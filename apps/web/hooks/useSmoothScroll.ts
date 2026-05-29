@@ -52,7 +52,8 @@ export default function useSmoothScroll() {
           }
         } else {
           const fullHref = targetHash ? `${targetPathname}#${targetHash}` : targetPathname;
-          router.push(fullHref, { scroll: false });
+          // router.push(fullHref, { scroll: false });
+          window.location.href = fullHref;
           // Scrolling is handled centrally (after route navigation) by HashScrollManager.
           // This avoids race conditions with route transitions and prevents scroll
           // logic from fighting with LenisProvider's route scroll behavior.
@@ -60,7 +61,7 @@ export default function useSmoothScroll() {
       } else {
         // router.push(href, { scroll: false });
         // window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-        router.push(href); // let Next.js handle scroll naturally
+        window.location.href = href;
 
       }
     },
