@@ -7,11 +7,11 @@ import Link from 'next/link';
 import MarkdownRenderer from '../markdown-renderer';
 import React, { useEffect } from 'react';
 import { SectionHeader } from '../SectionHeader';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import { SPLINE_SCENES } from '@/config/spline-scenes';
 import { FadeInWhenInView } from '../animations/FadeInWhenInView';
 
-const SplineScene = dynamic(() => import('../SplineScene'), { ssr: false });
+// const SplineScene = dynamic(() => import('../SplineScene'), { ssr: false });
 
 export interface CareerJobInfo {
   employment?: string;
@@ -104,12 +104,13 @@ function JobCard({ title, slug, description, jobInfo }: JobCardProps) {
 
 export function CareersSection({ career }: { career: CareerData }) {
   useEffect(() => {
-    if (!document.querySelector('script[src*="spline-viewer.js"]')) {
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = 'https://unpkg.com/@splinetool/viewer@latest/build/spline-viewer.js';
-      document.body.appendChild(script);
-    }
+    // TEMP DISABLE: Spline viewer script injection blocked while testing freezes.
+    // if (!document.querySelector('script[src*=\"spline-viewer.js\"]')) {
+    //   const script = document.createElement('script');
+    //   script.type = 'module';
+    //   script.src = 'https://unpkg.com/@splinetool/viewer@latest/build/spline-viewer.js';
+    //   document.body.appendChild(script);
+    // }
   }, []);
 
   const jobsToDisplay =
@@ -222,7 +223,8 @@ export function CareersSection({ career }: { career: CareerData }) {
                 className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.04]"
                 priority
               />
-              <SplineScene config={SPLINE_SCENES.career} />
+              {/* TEMP DISABLE: SplineScene blocked while troubleshooting freeze */}
+              {/* <SplineScene config={SPLINE_SCENES.career} /> */}
             </div>
           </div>
         </FadeInWhenInView>

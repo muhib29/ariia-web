@@ -143,7 +143,8 @@ export function InnovationSection({ header, image: _image }: InnovationSectionPr
               <div className="flex justify-center items-center relative">
                 <div className="absolute w-[250px] md:w-[400px] h-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[80px] bg-gradient-to-r from-[#51C7F0] via-[#35B5F5] to-[#2EFFEA] opacity-45 z-0" />
                 <div className="relative w-full max-w-md aspect-square z-10">
-                  <SplineScene config={SPLINE_SCENES.aboutUs} />
+                  {/* TEMP DISABLE: SplineScene causes freeze on some devices */}
+                  {/* <SplineScene config={SPLINE_SCENES.aboutUs} /> */}
                 </div>
               </div>
             </FadeInWhenInView>

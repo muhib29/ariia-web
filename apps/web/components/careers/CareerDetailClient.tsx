@@ -728,7 +728,8 @@ export function CareerDetailClient({ careerData }: { careerData: CareerData }) {
                       </h2>
                     )}
                     <div className="flex-shrink-0 w-full md:hidden flex items-center justify-center">
-                      <SplineScene config={SPLINE_SCENES.careerRoles} />
+                      {/* TEMP DISABLE: SplineScene blocked while troubleshooting freeze */}
+                      {/* <SplineScene config={SPLINE_SCENES.careerRoles} /> */}
                     </div>
                   {jobData.whyJoinUs?.description && (
   <div className="text-white leading-relaxed px-2">
@@ -757,7 +758,8 @@ export function CareerDetailClient({ careerData }: { careerData: CareerData }) {
 )}
                   </div>
                   <div className="relative z-10 hidden md:flex flex-shrink-0 w-full max-w-[300px] items-center justify-center md:mr-5">
-                    <SplineScene config={SPLINE_SCENES.careerRoles} />
+                    {/* TEMP DISABLE: SplineScene blocked while troubleshooting freeze */}
+                    {/* <SplineScene config={SPLINE_SCENES.careerRoles} /> */}
                   </div>
                 </div>
               </div>
