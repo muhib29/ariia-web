@@ -175,9 +175,11 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
       {/* Footer Section - Dark background */}
       <footer
         ref={containerRef}
-        onMouseMove={enableHoverFx ? handleMouseMove : undefined}
-        onMouseEnter={enableHoverFx ? () => setIsHovering(true) : undefined}
-        onMouseLeave={enableHoverFx ? () => setIsHovering(false) : undefined}
+        {...(enableHoverFx && {
+          onMouseMove: handleMouseMove,
+          onMouseEnter: () => setIsHovering(true),
+          onMouseLeave: () => setIsHovering(false),
+        })}
         className="relative z-20 group bg-[#101828] text-white overflow-hidden"
       >
         <div className="relative w-full">
@@ -200,7 +202,7 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
             <div className="flex flex-col-reverse gap-6 px-0 text-sm text-white/90 mb-1 md:mb-4 md:px-10 md:gap-10 md:flex-row">
               {/* First Column - Logo and Social Icons */}
               <div className="flex flex-col md:flex-col items-center sm:pr-12 space-y-6 col-span-2 md:col-span-1">
-                <Link href="/">
+                <Link href="/" prefetch={false}>
                   <HeroLogo width={70} height={70} className="object-contain" />
                 </Link>
                 {/* Social Icons */}
@@ -274,7 +276,7 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
                   <ul className="space-y-3">
                     {FOOTER_LINKS[1].map((link) => (
                       <li key={link.href}>
-                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS}>
+                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS} prefetch={false}>
                           {link.label}
                         </Link>
                       </li>
@@ -287,7 +289,7 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
                   <ul className="space-y-3">
                     {FOOTER_LINKS[2].map((link) => (
                       <li key={link.href}>
-                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS}>
+                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS} prefetch={false}>
                           {link.label}
                         </Link>
                       </li>
@@ -300,7 +302,7 @@ export function NewsletterFooter({ isHomePage = true }: { isHomePage?: boolean }
                   <ul className="space-y-3">
                     {FOOTER_LINKS[3].map((link) => (
                       <li key={link.href}>
-                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS}>
+                        <Link href={link.href} className={FOOTER_NAV_LINK_CLASS} prefetch={false}>
                           {link.label}
                         </Link>
                       </li>
