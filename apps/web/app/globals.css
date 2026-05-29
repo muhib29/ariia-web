@@ -126,6 +126,54 @@
   }
 } */
 
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-height: 100%;
+    min-block-size: 100dvh;
+    width: 100%;
+    overflow-x: hidden;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    background-color: var(--background);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    min-block-size: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    background-color: var(--background);
+  }
+
+  header,
+  footer,
+  .mobile-menu-sheet {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  footer {
+    z-index: 1000;
+  }
+
+  main,
+  section,
+  .page-layout {
+    min-height: 100dvh;
+    min-block-size: 100dvh;
+  }
+}
+
 /* Custom styles for homepage */
 /* .homepage-header {
   backdrop-filter: blur(8px);
