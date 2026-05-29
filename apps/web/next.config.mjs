@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ['@workspace/ui', '@splinetool/react-spline', '@splinetool/runtime'],
+  transpilePackages: ['@workspace/ui'],
   trailingSlash: true,
   compress: true,
   poweredByHeader: false,
@@ -38,21 +38,6 @@ const nextConfig = {
         ...splitChunks,
         cacheGroups: {
           ...splitChunks.cacheGroups,
-          splineVendor: {
-            test: /[\\/]node_modules[\\/]@splinetool[\\/]/,
-            name: 'spline',
-            chunks: 'async',
-            priority: 50,
-            enforce: true,
-            reuseExistingChunk: true,
-          },
-          splineScene: {
-            test: /[\\/]components[\\/]SplineScene\.(tsx|ts|jsx|js)$/,
-            name: 'spline-scene',
-            chunks: 'async',
-            priority: 45,
-            reuseExistingChunk: true,
-          },
         },
       };
     }

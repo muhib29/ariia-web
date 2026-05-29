@@ -18,37 +18,15 @@ let webglSupported: boolean | null = null;
 
 /** Cached WebGL probe — avoids creating multiple contexts during checks. */
 export function supportsWebGL(): boolean {
-  if (typeof window === 'undefined') return false;
-  if (webglSupported !== null) return webglSupported;
-
-  try {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl2') ?? canvas.getContext('webgl');
-    webglSupported = Boolean(gl);
-  } catch {
-    webglSupported = false;
-  }
-
-  return webglSupported;
+  // Force-disable WebGL checks while troubleshooting freezes.
+  // This prevents creating WebGL contexts in the browser.
+  return false;
 }
 
 /** Whether this device should load Spline/WebGL scenes. Touch devices stay off for stability/LCP; desktop loads by default unless explicitly disabled via env. */
 export function shouldLoadSpline(): boolean {
-  if (typeof window === 'undefined') return false;
-  if (process.env.NEXT_PUBLIC_ENABLE_SPLINE === 'false') return false;
-  if (isTouchDevice()) return false;
-  if (prefersReducedMotion()) return false;
-  if (!supportsWebGL()) return false;
-
-  const nav = navigator as Navigator & {
-    connection?: { saveData?: boolean; effectiveType?: string };
-  };
-  if (nav.connection?.saveData) return false;
-
-  const speed = nav.connection?.effectiveType;
-  if (speed === 'slow-2g' || speed === '2g' || speed === '3g') return false;
-
-  return true;
+  // Force-disable Spline/WebGL loading globally while troubleshooting.
+  return false;
 }
 
 /**
