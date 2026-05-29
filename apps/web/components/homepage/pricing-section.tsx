@@ -100,7 +100,7 @@ interface PricingData {
 const GradientSquare = ({ image, alt, style }: { image: string; alt: string; style: string }) => {
   return (
     <div className="w-11 h-11 mb-3 bg-gradient-to-r from-[#9eb6fc] to-[#99cbfc] p-2 border-2 border-[#b0cbfc] rounded-lg flex items-center justify-center">
-      <img src={image} alt={alt} className={style} />
+      <img src={image}  alt={alt} className={style} />
     </div>
   );
 };
@@ -636,11 +636,13 @@ export function PricingSection({ pricing }: { pricing: PricingData }) {
                       <img
                         src="/images/pricing-illu.webp"
                         alt="Enterprise Illustration"
+                        loading="lazy"
                         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-auto h-[60%] object-cover z-10"
                       />
                       <img
                         src="/images/enterprise-pattern.svg"
                         alt="Enterprise Pattern"
+                        loading="lazy"
                         className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[60%] object-cover z-0"
                       />
                       <div className="absolute bottom-0 left-[60%] -translate-y-1/2 z-0 w-full h-[200px] md:h-[600px] lg:h-[320px] rounded-full blur-3xl opacity-40 bg-[linear-gradient(180deg,_#36C5F0_100%,_#58E6FD_100%)]"></div>

@@ -2,13 +2,18 @@
 'use client';
 
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { Header } from './header';
 import { NewsletterFooter } from './footer';
 import MarkdownRenderer from '../markdown-renderer';
 import React from 'react';
 import { SectionHeader } from '../SectionHeader';
-import LottieAnimation from '../LottieAnimation';
 import { FadeInWhenInView } from './hero-section';
+
+const LottieAnimation = dynamic(() => import('../LottieAnimation'), {
+  ssr: false,
+  loading: () => null,
+});
 
 export interface AboutContentSection {
   id?: string;
@@ -91,16 +96,16 @@ export default function StoryBehindAriia({ about }: { about: AboutData }) {
 
               <MarkdownRenderer
                 components={{
-                  p: ({ node, ...props }: { node?: any; [key: string]: any }) => (
+                  p: ({ node, ...props }: { node?: any;[key: string]: any }) => (
                     <p
                       className="text-gray-700 text-sm md:text-base leading-relaxed mb-2 md:mb-4"
                       {...props}
                     />
                   ),
-                  ul: ({ node, ...props }: { node?: any; [key: string]: any }) => (
+                  ul: ({ node, ...props }: { node?: any;[key: string]: any }) => (
                     <ul className="list-disc pl-6 text-gray-700 mb-4" {...props} />
                   ),
-                  li: ({ node, ...props }: { node?: any; [key: string]: any }) => <li className="mb-1" {...props} />,
+                  li: ({ node, ...props }: { node?: any;[key: string]: any }) => <li className="mb-1" {...props} />,
                 }}
               >
                 {section.content}
@@ -160,6 +165,7 @@ export default function StoryBehindAriia({ about }: { about: AboutData }) {
                       loop
                       muted
                       playsInline
+                      preload="none"
                       className="object-cover rounded-3xl shadow-lg w-full h-full"
                       style={{ objectPosition: 'center' }}
                     >
@@ -196,11 +202,10 @@ export default function StoryBehindAriia({ about }: { about: AboutData }) {
 
               const globeComponent = (isMobileForGlobe: boolean) => (
                 <div
-                  className={`relative w-full overflow-hidden rounded-[20px] lg:rounded-[28px] flex justify-center items-center ${
-                    isMobileForGlobe
+                  className={`relative w-full overflow-hidden rounded-[20px] lg:rounded-[28px] flex justify-center items-center ${isMobileForGlobe
                       ? 'md:hidden w-screen max-w-none relative left-1/2 -translate-x-1/2 aspect-square my-6 rounded-none'
                       : 'hidden md:flex md:float-right md:ml-6 md:mb-6 md:w-[360px] xl:w-[400px] xl:h-[450px] mt-1'
-                  }`}
+                    }`}
                 >
                   <LottieAnimation
                     src="/lottie/storyglobe.lottie"
@@ -217,7 +222,7 @@ export default function StoryBehindAriia({ about }: { about: AboutData }) {
                   {/* Paragraph 1 */}
                   <MarkdownRenderer
                     components={{
-                      p: ({ node, ...props }: { node?: any; [key: string]: any }) => (
+                      p: ({ node, ...props }: { node?: any;[key: string]: any }) => (
                         <p
                           className="text-gray-700 text-sm md:text-base leading-relaxed mb-2 md:mb-4"
                           {...props}
@@ -234,7 +239,7 @@ export default function StoryBehindAriia({ about }: { about: AboutData }) {
                   {/* Paragraph 2 */}
                   <MarkdownRenderer
                     components={{
-                      p: ({ node, ...props }: { node?: any; [key: string]: any }) => (
+                      p: ({ node, ...props }: { node?: any;[key: string]: any }) => (
                         <p
                           className="text-gray-700 text-sm md:text-base leading-relaxed mb-2 md:mb-4 "
                           {...props}
@@ -251,7 +256,7 @@ export default function StoryBehindAriia({ about }: { about: AboutData }) {
                   {/* Remaining Content */}
                   <MarkdownRenderer
                     components={{
-                      p: ({ node, ...props }: { node?: any; [key: string]: any }) => (
+                      p: ({ node, ...props }: { node?: any;[key: string]: any }) => (
                         <p
                           className="text-gray-700 text-sm md:text-base leading-relaxed mb-2 md:mb-4"
                           {...props}

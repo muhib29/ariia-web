@@ -21,7 +21,7 @@ import {
   X,
 } from 'lucide-react';
 import { Button } from '@workspace/ui/components/button';
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@workspace/ui/components/sheet';
+// Replaced Radix Sheet with plain div-based menu for mobile — no external sheet import
 import {
   Collapsible,
   CollapsibleContent,
@@ -359,40 +359,34 @@ function HeaderContent({
           </Link>
         </Button>
         <div className="block md:hidden relative z-[60]">
-          <Sheet open={mobileMenuOpen} onOpenChange={handleMobileMenuOpenChange} modal={false}>
-            <SheetTrigger asChild>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="rounded-full size-8 sm:size-10 touch-manipulation"
-                aria-label="Open menu"
-                aria-expanded={mobileMenuOpen}
-              >
-                <svg
-                  className="h-6 w-6 sm:h-10 sm:w-10 text-gray-900"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </Button>
-            </SheetTrigger>
-
-            <SheetContent
-              side="top"
-              hideOverlay
-              showCloseButton={false}
-              className="p-0 bg-transparent rounded-none border-0 shadow-none z-[200] pointer-events-auto duration-0 mobile-menu-sheet"
-              onOpenAutoFocus={(e) => e.preventDefault()}
-              onCloseAutoFocus={(e) => e.preventDefault()}
+          {/* Button that previously acted as SheetTrigger */}
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="rounded-full size-8 sm:size-10 touch-manipulation"
+            aria-label="Open menu"
+            aria-expanded={mobileMenuOpen}
+            onClick={() => handleMobileMenuOpenChange(true)}
+          >
+            <svg
+              className="h-6 w-6 sm:h-10 sm:w-10 text-gray-900"
+              fill="none"
+              viewBox="0 0 20 20"
+              stroke="currentColor"
             >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </Button>
+
+          {/* Mobile menu (replaces Radix SheetContent). Rendered when open. */}
+          {mobileMenuOpen && (
+            <div className="p-0 bg-transparent rounded-none border-0 shadow-none z-[200] pointer-events-auto duration-0 mobile-menu-sheet">
               <DialogTitle>
                 <span className="sr-only">Mobile Navigation Menu</span>
               </DialogTitle>
@@ -466,7 +460,7 @@ function HeaderContent({
                               href={link.href}
                               prefetch={false}
                               className={cn(
-                                'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]',
+                                'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]'
                               )}
                               //@ts-ignore
                               onClick={(e) => {
@@ -519,7 +513,7 @@ function HeaderContent({
                               href={link.href}
                               prefetch={false}
                               className={cn(
-                                'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]',
+                                'flex ml-2 items-start gap-2 py-2 px-1 min-h-[44px] text-gray-800 font-[400] transition-colors touch-manipulation relative z-[1]'
                               )} // @ts-ignore
                               onClick={(e) => {
                                 e.preventDefault();
@@ -575,8 +569,8 @@ function HeaderContent({
                   </div>
                 </div>
               </div>
-            </SheetContent>
-          </Sheet>
+            </div>
+          )}
         </div>
       </div>
     </div>

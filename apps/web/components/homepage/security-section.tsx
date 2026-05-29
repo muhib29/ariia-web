@@ -82,6 +82,8 @@ export function SecuritySection({ header, imageWithContent }: SecuritySectionPro
             <Image
               src="/images/compliance-bg.webp"
               alt="Compliance background"
+              loading="lazy"
+              priority={false}
               fill
               sizes="100vw"
               className="object-cover absolute inset-0 z-0 rounded-[20px]"
