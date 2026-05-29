@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, type CSSProperties } from 'react';
+import React, { useState, useEffect, useRef, type CSSProperties } from 'react';
 import type { SplineSceneConfig } from '@/config/spline-scenes';
 import type { Application } from '@splinetool/runtime';
 import { useScreenSize } from '@/hooks/useScreenSize';
@@ -27,8 +27,7 @@ export default function SplineSceneInner({
 }: SplineSceneInnerProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(false);
-  const [SplineComponent, setSplineComponent] =
-    useState<typeof import('@splinetool/react-spline').default | null>(null);
+  const [SplineComponent, setSplineComponent] = useState<React.ComponentType<any> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const screenSize = useScreenSize();
   const currentHeight = config.height[screenSize];
