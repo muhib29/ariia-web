@@ -35,6 +35,8 @@ export default function SplineSceneInner({
   const [isNearViewport, setIsNearViewport] = useState(shouldLoadImmediately);
 
   // Check WebGL support immediately
+  // NOTE: temporarily disabled for testing. Re-enable after verifying whether WebGL is the source of the issue.
+  /*
   useEffect(() => {
     try {
       const canvas = document.createElement('canvas');
@@ -48,6 +50,7 @@ export default function SplineSceneInner({
       setError(true);
     }
   }, []);
+  */
 
   useEffect(() => {
     if (shouldLoadImmediately || !containerRef.current) return;
